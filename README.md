@@ -5,7 +5,7 @@ This script is used to create a grub2 bootable flash disc with multiple
 linux distros and OpenBSD.
 
 As of writing, these are the OS'es that are being installed:
-- debian 7.4.0 netinstall (amd64 & i386)
+- debian 7.5.0 netinstall (amd64 & i386)
 - fedora 20 live (x86-64 & i386)
 - gentoo current minimal (amd64 & x86)
 - kali 1.0.6 live (amd64)
