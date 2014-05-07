@@ -65,16 +65,8 @@ function disk_detect()
 function disk_action()
 {
   ## do not touch this section or you break the fdisk function!!!
-  dd if=/dev/zero of=${USBSTICK} bs=512 count=62
+  dd if=/dev/zero of=${USBSTICK} bs=1M count=1
 fdisk ${USBSTICK} <<EOF
-d
-
-d
-
-d
-
-d
-
 n
 p
 1
@@ -343,7 +335,7 @@ disk_detect
 disk_action
 grub_disk
 grub_header
-install_debian 7.4.0 amd64 i386
+install_debian 7.5.0 amd64 i386
 install_fedora 20 x86_64 i386
 install_gentoo current amd64 x86
 install_kali 1.0.6 amd64
