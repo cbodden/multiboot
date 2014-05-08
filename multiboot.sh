@@ -15,7 +15,7 @@
 #        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
 #       CREATED: 15 April 2014
-#      REVISION: 13
+#      REVISION: 14
 #===============================================================================
 
 LANG=C
@@ -290,7 +290,11 @@ function install_ubuntus()
   local VER=$1
   shift 1
   while [[ $# -gt 0 ]]; do
-    [[ "$1" == i386 ]] && EFI="" || EFI=".efi"
+    if [[ "${VER}" != "12.04.4" ]]; then
+      [[ "$1" == i386 ]] && local EFI="" || local EFI=".efi"
+    else
+      local EFI=""
+    fi
     local DL_ADDY="http://releases.ubuntu.com/${VER}/"
     local IMAGE="ubuntu-${VER}-server-${1}.iso"
 
@@ -299,7 +303,7 @@ echo "menuentry \"Ubuntu ${VER} server ${1}\" {
   set bo1=\"cdrom-detect/try-usb=true file=/cdrom/preseed/ubuntu-server.seed\"
   set bo2=\"iso-scan/filename=\$isofile noprompt noeject --\"
   loopback loop (hd0,1)\$isofile
-  linux (loop)/install/vmlinuz${EFI} \$bo1
+  linux (loop)/install/vmlinuz${EFI} \$bo1 \$bo2
   initrd (loop)/install/initrd.gz
 }
 " >> ${GRUBCONF}
