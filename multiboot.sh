@@ -296,10 +296,11 @@ function install_ubuntus()
 
 echo "menuentry \"Ubuntu ${VER} server ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
-  set bo1=\"boot=casper iso-scan/filename=\$isofile noprompt noeject\"
+  set bo1=\"cdrom-detect/try-usb=true file=/cdrom/preseed/ubuntu-server.seed\"
+  set bo2=\"iso-scan/filename=\$isofile noprompt noeject --\"
   loopback loop (hd0,1)\$isofile
-  linux (loop)/casper/vmlinuz${EFI} \$bo1
-  initrd (loop)/casper/initrd.lz
+  linux (loop)/install/vmlinuz${EFI} \$bo1
+  initrd (loop)/install/initrd.gz
 }
 " >> ${GRUBCONF}
     wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
