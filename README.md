@@ -28,6 +28,12 @@ Todo / Add
 ----
 - lots of stuff....
 
+Troubleshooting
+----
+This script was tested using a system that does not automount the usb
+flash drive. 
+If your distro automounts the flash disk, try unmounting it first before
+running this script.
 
 License and Author
 ----
