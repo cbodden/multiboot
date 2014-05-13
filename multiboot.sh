@@ -183,6 +183,28 @@ echo "menuentry \"Gentoo minimal ${VER_L} ${1}\" {
   done
 }
 
+function install_grml()
+{
+  local VER=$1
+  shift 1
+  while [[ $# -gt 0 ]]; do
+    local DL_ADDY="http://mirror.us.leaseweb.net/grml/"
+    local IMAGE="grml${1}-full_${VER}.iso"
+
+echo "menuentry \"GRML Linux ${VER} ${1} - x86_64 & i386 full\" {
+  iso_path=\"/iso/${IMAGE}\"
+  export iso_path
+  loopback loop $iso_path
+  search --set=root --file $iso --no-floppy --fs-uuid
+  set root=(loop)
+  configfile /boot/grub/loopback.cfg
+}
+" >> ${GRUBCONF}
+    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
+    shift 1
+  done
+}
+
 function install_kali()
 {
   local VER=$1
@@ -342,6 +364,7 @@ grub_header
 install_debian 7.5.0 amd64 i386
 install_fedora 20 x86_64 i386
 install_gentoo current amd64 x86
+install_grml 2014.03 96
 install_kali 1.0.6 amd64
 install_netbsd 6.1.3 amd64 i386
 install_openbsd 5.5 amd64 i386
