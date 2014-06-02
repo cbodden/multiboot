@@ -42,6 +42,13 @@ readonly R_UID="0"
 readonly USBTMPDIR="/usbtmpdir"
 readonly GRUBCONF="${USBTMPDIR}/boot/grub/grub.cfg"
 
+function logd()
+{
+  local LOGFILE=/tmp/$0
+  printf "%-20s %-10s %-10s %-10s %-10s\n" `date "+%Y%m%d_%H%M"` \
+    "[${1}]" "${2}" "${3}" "${4}" >> ${LOGFILE}
+}
+
 function disk_detect()
 {
   typeset -r MAINPROMPT="Select a disk to use: "
