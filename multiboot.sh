@@ -15,7 +15,7 @@
 #        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
 #       CREATED: 15 April 2014
-#      REVISION: 14
+#      REVISION: 15
 #===============================================================================
 
 LANG=C
@@ -122,6 +122,10 @@ function install_debian()
     local DL_ADDY="cdimage.debian.org/debian-cd/${VER}/${1}/iso-cd/"
     local IMAGE="debian-${VER}-${1}-netinst.iso"
 
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; break ; }
+
 echo "menuentry \"Debian netinst ${VER} ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
   set bo1=\"vga=normal --\"
@@ -130,7 +134,6 @@ echo "menuentry \"Debian netinst ${VER} ${1}\" {
   initrd (loop)/install.amd/initrd.gz
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
     shift 1
   done
 }
@@ -146,6 +149,10 @@ function install_fedora()
     local IMAGE="Fedora-Live-Desktop-${VER_6}-${VER}-1.iso"
     local FED_OPTS="--class fedora --class gnu-linux --class gnu --class os"
 
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; break ; }
+
 echo "menuentry \"Fedora desktop ${VER} ${VER_3}\" ${FED_OPTS} {
   insmod loopback
   set isolabel=Fedora-Live-Desktop-${VER_6}-${VER}-1
@@ -158,7 +165,6 @@ echo "menuentry \"Fedora desktop ${VER} ${VER_3}\" ${FED_OPTS} {
   initrd /isolinux/initrd0.img
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
     shift 1
   done
 }
@@ -175,6 +181,10 @@ function install_gentoo()
     local DL_ADDY="${SERVER}/${1}/autobuilds/${VER_L}/"
     local IMAGE="install-${1}-minimal-${VER_L}.iso"
 
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; break ; }
+
 echo "menuentry \"Gentoo minimal ${VER_L} ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
   set bo1=\"root=/dev/ram0 init=/linuxrc nokeymap cdroot cdboot\"
@@ -185,7 +195,6 @@ echo "menuentry \"Gentoo minimal ${VER_L} ${1}\" {
   initrd (loop)/isolinux/gentoo.igz
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
     shift 1
   done
 }
@@ -198,16 +207,18 @@ function install_grml()
     local DL_ADDY="http://mirror.us.leaseweb.net/grml/"
     local IMAGE="grml${1}-full_${VER}.iso"
 
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; break ; }
+
 echo "menuentry \"GRML Linux ${VER} ${1} - x86_64 & i386 full\" {
-  iso_path=\"/iso/${IMAGE}\"
-  export iso_path
-  loopback loop $iso_path
-  search --set=root --file $iso --no-floppy --fs-uuid
+  set isofile=\"/iso/${IMAGE}\"
+  loopback loop \$isofile
+  search --set=root --file \$isofile --no-floppy --fs-uuid
   set root=(loop)
   configfile /boot/grub/loopback.cfg
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
     shift 1
   done
 }
@@ -220,6 +231,10 @@ function install_kali()
     local DL_ADDY="http://cdimage.kali.org/kali-latest/${1}/"
     local IMAGE="kali-linux-${VER}-${1}.iso"
 
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; break ; }
+
 echo "menuentry \"Kali Linux ${VER} ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
   set bo1=\"findiso=\$isofile boot=live noconfig=sudo username=root\"
@@ -230,7 +245,6 @@ echo "menuentry \"Kali Linux ${VER} ${1}\" {
   initrd (loop)/live/initrd.img
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
     shift 1
   done
 }
@@ -287,6 +301,10 @@ function install_tails()
     local DL_ADDY="http://dl.amnesia.boum.org/tails/stable/tails-${1}-${VER}/"
     local IMAGE="tails-${1}-${VER}.iso"
 
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; break ; }
+
 echo "menuentry \"Tails ${VER} ${1} default\" {
   set isofile=\"/iso/${IMAGE}\"
   set isouuid=\"/dev/disk/by-uuid/${UUID}/iso/${IMAGE}\"
@@ -308,7 +326,6 @@ echo "menuentry \"Tails ${VER} ${1} masquerade\" {
   initrd (loop)/live/initrd.img
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
     shift 1
   done
 }
@@ -326,6 +343,10 @@ function install_ubuntus()
     local DL_ADDY="http://releases.ubuntu.com/${VER}/"
     local IMAGE="ubuntu-${VER}-server-${1}.iso"
 
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; break ; }
+
 echo "menuentry \"Ubuntu ${VER} server ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
   set bo1=\"cdrom-detect/try-usb=true file=/cdrom/preseed/ubuntu-server.seed\"
@@ -335,7 +356,6 @@ echo "menuentry \"Ubuntu ${VER} server ${1}\" {
   initrd (loop)/install/initrd.gz
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
     shift 1
   done
 }
@@ -349,6 +369,10 @@ function install_ubuntud()
     local DL_ADDY="http://releases.ubuntu.com/${VER}/"
     local IMAGE="ubuntu-${VER}-desktop-${1}.iso"
 
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; break ; }
+
 echo "menuentry \"Ubuntu ${VER} desktop ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
   set bo1=\"boot=casper iso-scan/filename=\$isofile noprompt noeject\"
@@ -357,7 +381,6 @@ echo "menuentry \"Ubuntu ${VER} desktop ${1}\" {
   initrd (loop)/casper/initrd.lz
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/
     shift 1
   done
 }
