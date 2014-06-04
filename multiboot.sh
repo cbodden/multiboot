@@ -124,7 +124,6 @@ function install_debian()
   while [[ $# -gt 0 ]]; do
     local DL_ADDY="cdimage.debian.org/debian-cd/${VER}/${1}/iso-cd/"
     local IMAGE="debian-${VER}-${1}-netinst.iso"
-
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -151,7 +150,6 @@ function install_fedora()
     local DL_ADDY="mirror.pnl.gov/fedora/linux/releases/${VER}/Live/${VER_3}/"
     local IMAGE="Fedora-Live-Desktop-${VER_6}-${VER}-1.iso"
     local FED_OPTS="--class fedora --class gnu-linux --class gnu --class os"
-
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -183,7 +181,6 @@ function install_gentoo()
       | tail -n 1 | cut -d"/" -f1 )
     local DL_ADDY="${SERVER}/${1}/autobuilds/${VER_L}/"
     local IMAGE="install-${1}-minimal-${VER_L}.iso"
-
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -209,7 +206,6 @@ function install_grml()
   while [[ $# -gt 0 ]]; do
     local DL_ADDY="http://mirror.us.leaseweb.net/grml/"
     local IMAGE="grml${1}-full_${VER}.iso"
-
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -233,7 +229,6 @@ function install_kali()
   while [[ $# -gt 0 ]]; do
     local DL_ADDY="http://cdimage.kali.org/kali-latest/${1}/"
     local IMAGE="kali-linux-${VER}-${1}.iso"
-
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -303,7 +298,6 @@ function install_tails()
   while [[ $# -gt 0 ]]; do
     local DL_ADDY="http://dl.amnesia.boum.org/tails/stable/tails-${1}-${VER}/"
     local IMAGE="tails-${1}-${VER}.iso"
-
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -345,7 +339,6 @@ function install_ubuntus()
     fi
     local DL_ADDY="http://releases.ubuntu.com/${VER}/"
     local IMAGE="ubuntu-${VER}-server-${1}.iso"
-
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -371,7 +364,6 @@ function install_ubuntud()
     [[ "$1" == i386 ]] && EFI="" || EFI=".efi"
     local DL_ADDY="http://releases.ubuntu.com/${VER}/"
     local IMAGE="ubuntu-${VER}-desktop-${1}.iso"
-
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -394,14 +386,14 @@ disk_detect
 disk_action
 grub_disk
 grub_header
-#install_debian 7.5.0 amd64 i386
-#install_fedora 20 x86_64 i386
-#install_gentoo current amd64 x86
-install_grml 2014.03 96
-#install_kali 1.0.7 amd64
-#install_netbsd 6.1.3 amd64 i386
-#install_openbsd 5.5 amd64 i386
-#install_tails 1.0 i386
-#install_ubuntus 12.04.4 amd64 i386
-#install_ubuntud 13.10 amd64 i386
+install_${DEBIAN}
+install_${FEDORA}
+install_${GENTOO}
+install_${GRML}
+install_${KALI}
+install_${NETBSD}
+install_${OPENBSD}
+install_${TAILS}
+install_${UBUNTU_SERVER}
+install_${UBUNTU_DESKTOP}
 cleanup
