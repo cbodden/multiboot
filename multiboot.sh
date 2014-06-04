@@ -124,7 +124,7 @@ function install_debian()
 
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; break ; }
+      { shift 1 ; continue ; }
 
 echo "menuentry \"Debian netinst ${VER} ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -151,7 +151,7 @@ function install_fedora()
 
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; break ; }
+      { shift 1 ; continue ; }
 
 echo "menuentry \"Fedora desktop ${VER} ${VER_3}\" ${FED_OPTS} {
   insmod loopback
@@ -183,7 +183,7 @@ function install_gentoo()
 
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; break ; }
+      { shift 1 ; continue ; }
 
 echo "menuentry \"Gentoo minimal ${VER_L} ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -209,7 +209,7 @@ function install_grml()
 
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; break ; }
+      { shift 1 ; continue ; }
 
 echo "menuentry \"GRML Linux ${VER} ${1} - x86_64 & i386 full\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -233,7 +233,7 @@ function install_kali()
 
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; break ; }
+      { shift 1 ; continue ; }
 
 echo "menuentry \"Kali Linux ${VER} ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -303,7 +303,7 @@ function install_tails()
 
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; break ; }
+      { shift 1 ; continue ; }
 
 echo "menuentry \"Tails ${VER} ${1} default\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -345,7 +345,7 @@ function install_ubuntus()
 
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; break ; }
+      { shift 1 ; continue ; }
 
 echo "menuentry \"Ubuntu ${VER} server ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -371,7 +371,7 @@ function install_ubuntud()
 
     [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
       { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; break ; }
+      { shift 1 ; continue ; }
 
 echo "menuentry \"Ubuntu ${VER} desktop ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
