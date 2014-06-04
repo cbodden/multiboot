@@ -5,15 +5,16 @@ This script is used to create a grub2 bootable flash disc with multiple
 linux distros and OpenBSD.
 
 As of writing, these are the OS'es that are being installed:
-- debian 7.5.0 netinstall (amd64 & i386)
-- fedora 20 live (x86-64 & i386)
+- debian netinstall (amd64 & i386)
+- fedora live (x86-64 & i386)
 - gentoo current minimal (amd64 & x86)
-- kali 1.0.6 live (amd64)
-- netbsd 6.1.3 (amd64 & i386)
-- openbsd 5.5 (amd64 & i386)
-- tails 1.0 live (i386)
-- ubuntu server 12.04.4 (amd64 & i386)
-- ubuntu desktop 13.10 (amd64 & i386)
+- grml
+- kali live (amd64)
+- netbsd (amd64 & i386)
+- openbsd (amd64 & i386)
+- tails live (i386)
+- ubuntu server (amd64 & i386)
+- ubuntu desktop (amd64 & i386)
 
 Requirements
 ----
