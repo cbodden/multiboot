@@ -24,6 +24,9 @@ set -o nounset
 set -o errexit
 NAME=$(basename $0)
 
+# sourcing config file
+. multiboot.config
+
 # text format && color for messages
 ORN=$(tput setaf 3); RED=$(tput setaf 1); BLU=$(tput setaf 4)
 GRN=$(tput setaf 40); CLR=$(tput sgr0)
