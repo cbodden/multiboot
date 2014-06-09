@@ -1,0 +1,40 @@
+OS_NAME="tails"
+x86=""
+i386="i386"
+version=${tails_version}
+
+function install_tails()
+{
+  local VER=$1
+  shift 1
+  while [[ $# -gt 0 ]]; do
+    local DL_ADDY="http://dl.amnesia.boum.org/tails/stable/tails-${1}-${VER}/"
+    local IMAGE="tails-${1}-${VER}.iso"
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; continue ; }
+
+echo "menuentry \"Tails ${VER} ${1} default\" {
+  set isofile=\"/iso/${IMAGE}\"
+  set isouuid=\"/dev/disk/by-uuid/${UUID}/iso/${IMAGE}\"
+  set bo1=\"boot=live config\"
+  loopback loop \$isofile
+  linux (loop)/live/vmlinuz fromiso=\$isouuid \$bo1
+  initrd (loop)/live/initrd.img
+}
+" >> ${GRUBCONF}
+
+echo "menuentry \"Tails ${VER} ${1} masquerade\" {
+  set isofile=\"/iso/${IMAGE}\"
+  set isouuid=\"/dev/disk/by-uuid/${UUID}/iso/${IMAGE}\"
+  set bo1=\"boot=live config live-media=removable nopersistent noprompt quiet\"
+  set bo2=\"timezone=Etc/UTC block.events_dfl_poll_msecs=1000 splash\"
+  set bo3=\"nox11autologin module=Tails truecrypt quiet\"
+  loopback loop \$isofile
+  linux (loop)/live/vmlinuz fromiso=\$isouuid \$bo1 \$bo2 \$bo3
+  initrd (loop)/live/initrd.img
+}
+" >> ${GRUBCONF}
+    shift 1
+  done
+}

@@ -1,0 +1,28 @@
+OS_NAME="netbsd"
+x86="amd64"
+i386="i386"
+version=${netbsd_version}
+
+function install_netbsd()
+{
+  local VER=$1
+  shift 1
+  while [[ $# -gt 0 ]]; do
+    local DL_ADDY="mirror.planetunix.net/pub/NetBSD/NetBSD-${VER}/${1}/"
+    local KNL_DL="binary/kernel/netbsd-INSTALL.gz"
+    local KNL="netbsd-INSTALL.gz"
+    local ST="binary/sets/"
+    local WGET_OPT="-r -l 1 -nd -e robots=off -R '*.html*,*.gif'"
+    local WGET_PATH="--directory-prefix=${USBTMPDIR}/iso/netbsd/${VER}/${1}/"
+
+echo "menuentry \"NetBSD ${VER} ${1}\" {
+  insmod ext2
+  set root=(hd0,msdos1)
+  knetbsd /iso/netbsd/${VER}/${1}/${KNL}
+}
+" >> ${GRUBCONF}
+    wget ${DL_ADDY}${ST} ${WGET_OPT} ${WGET_PATH} || echo "NetBSD dloaded"
+    wget ${DL_ADDY}${KNL_DL} ${WGET_PATH} || echo "NetBSD kernel dloaded"
+    shift 1
+  done
+}

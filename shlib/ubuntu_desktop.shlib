@@ -1,0 +1,28 @@
+OS_NAME="ubuntu_desktop"
+x86="amd64"
+i386="i386"
+version=${ubuntu_desktop_version}
+
+function install_ubuntu_desktop()
+{
+  local VER=$1
+  shift 1
+  while [[ $# -gt 0 ]]; do
+    [[ "$1" == i386 ]] && EFI="" || EFI=".efi"
+    local DL_ADDY="http://releases.ubuntu.com/${VER}/"
+    local IMAGE="ubuntu-${VER}-desktop-${1}.iso"
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; continue ; }
+
+echo "menuentry \"Ubuntu ${VER} desktop ${1}\" {
+  set isofile=\"/iso/${IMAGE}\"
+  set bo1=\"boot=casper iso-scan/filename=\$isofile noprompt noeject\"
+  loopback loop (hd0,1)\$isofile
+  linux (loop)/casper/vmlinuz${EFI} \$bo1
+  initrd (loop)/casper/initrd.lz
+}
+" >> ${GRUBCONF}
+    shift 1
+  done
+}

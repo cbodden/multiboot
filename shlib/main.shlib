@@ -1,0 +1,102 @@
+#!/bin/bash
+
+LANG=C
+set -o pipefail
+set -o nounset
+set -o errexit
+NAME=$(basename $0)
+
+# text format && color for messages
+ORN=$(tput setaf 3); RED=$(tput setaf 1); BLU=$(tput setaf 4)
+GRN=$(tput setaf 40); CLR=$(tput sgr0)
+FMT="%s%-44s%s"
+MNHDR="${BLU}[*]${CLR} "; BDHDR="${RED}[*]${CLR}"; COLHDR="${GRN}[*]${CLR} "
+# printf "${FMT}" "${MNHDR}" "message" ": "
+
+# tmp file for function lines
+TMP_FILE=$(mktemp --tmpdir multiboot.$$.XXXXXXXXXX)
+
+# OS check && trap statement
+[[ $(uname) != "Linux" ]] && { printf "\nNeeds Linux\n"; exit 1; }
+trap 'echo "${NAME}: Ouch! Quitting." 1>&2 ; \
+  rm -rf ${TMP_FILE} ; exit 1' 0 1 2 3 9 15
+
+# check for sudo / root
+readonly R_UID="0"
+[[ "${UID}" -ne "${R_UID}" ]] && { printf "\nNeeds sudo\n"; exit 1; }
+
+readonly USBTMPDIR="/usbtmpdir"
+readonly GRUBCONF="${USBTMPDIR}/boot/grub/grub.cfg"
+
+function cleanup()
+{
+  sync
+  umount ${USBSTICK}1
+  rm ${USBTMPDIR} -rf
+  rm -rf ${TMP_FILE}
+}
+
+function logd()
+{
+  local LOGFILE=/tmp/$0
+  printf "%-20s %-10s %-10s %-10s %-10s\n" `date "+%Y%m%d_%H%M"` \
+    "[${1}]" "${2}" "${3}" "${4}" >> ${LOGFILE}
+}
+
+function disk_detect()
+{
+  typeset -r MAINPROMPT="Select a disk to use: "
+  declare -a ARR=(`for DRIVE in $(fdisk -l | grep Disk |
+    grep -v "Disklabel\|identifier" | awk '{print $2}' | cut -d: -f1);
+    do echo $DRIVE ; done`)
+  PS3=$MAINPROMPT
+  clear
+  select DRV in "${ARR[@]}"; do
+    case "${DRV}" in
+      ${DRV}) [[ -n $(df | grep "${DRV}") ]] &&
+        { echo -e "${DRV} is used by:\n$(df | grep "${DRV}")"; exit 1; } ||
+        { readonly USBSTICK="${DRV}"; } ;;
+    esac
+    readonly DRV_CLEAN=$(echo "${USBSTICK}" | cut -d"/" -f3)
+    break
+  done
+}
+
+function disk_action()
+{
+  ## do not touch this section or you break the fdisk function!!!
+  dd if=/dev/zero of=${USBSTICK} bs=1M count=1
+fdisk ${USBSTICK} <<EOF
+n
+p
+1
+
+
+t
+c
+a
+w
+EOF
+  mkfs.vfat ${USBSTICK}1
+}
+
+function grub_disk()
+{
+  mkdir ${USBTMPDIR}
+  mount ${USBSTICK}1 ${USBTMPDIR}
+  readonly UUID=$(ls -al /dev/disk/by-uuid/ | \
+    grep ${DRV_CLEAN}1 | awk '{print $9}')
+  [[ -n $(which grub2-install 2>/dev/null) ]] &&
+    { grub2-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; } ||
+    { grub-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; }
+  mkdir ${USBTMPDIR}/iso/
+}
+
+function grub_header()
+{
+echo "set timeout=300
+set default=0
+set menu_color_normal=white/black
+set menu_color_highlight=white/green
+" >> ${GRUBCONF}
+}

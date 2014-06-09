@@ -1,0 +1,24 @@
+OS_NAME="openbsd"
+x86="amd64"
+i386="i386"
+version=${openbsd_version}
+
+function install_openbsd()
+{
+  local VER=$1
+  shift 1
+  while [[ $# -gt 0 ]]; do
+    local DL_ADDY="openbsd.mirrors.hoobly.com/${VER}/${1}/"
+    local WGET_OPT="-r -l 1 -nd -e robots=off -R '*.html*,*.gif'"
+    local WGET_PATH="--directory-prefix=${USBTMPDIR}/${VER}/${1}/"
+
+echo "menuentry \"OpenBSD ${VER} ${1}\" {
+  insmod ext2
+  set root=(hd0,msdos1)
+  kopenbsd /${VER}/${1}/bsd.rd
+}
+" >> ${GRUBCONF}
+    wget ${DL_ADDY} ${WGET_OPT} ${WGET_PATH} || echo "OpenBSD dloaded"
+    shift 1
+  done
+}

@@ -1,0 +1,29 @@
+OS_NAME="kali"
+x86="amd64"
+i386=""
+version=${kali_version}
+
+function install_kali()
+{
+  local VER=$1
+  shift 1
+  while [[ $# -gt 0 ]]; do
+    local DL_ADDY="http://cdimage.kali.org/kali-latest/${1}/"
+    local IMAGE="kali-linux-${VER}-${1}.iso"
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; continue ; }
+
+echo "menuentry \"Kali Linux ${VER} ${1}\" {
+  set isofile=\"/iso/${IMAGE}\"
+  set bo1=\"findiso=\$isofile boot=live noconfig=sudo username=root\"
+  set bo2=\"hostname=kali quiet splash\"
+  search --set -f \$isofile
+  loopback loop \$isofile
+  linux (loop)/live/vmlinuz \$bo1 \$bo2
+  initrd (loop)/live/initrd.img
+}
+" >> ${GRUBCONF}
+    shift 1
+  done
+}

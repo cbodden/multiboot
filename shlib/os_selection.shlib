@@ -1,0 +1,31 @@
+function os_selection()
+{
+  CNT=0
+  printf "${FMT}" "${MNHDR}" "Interactive Install ?" ": " ; read yn
+  case "${yn}" in
+    [Yy][Ee][Ss]|[Yy])
+      declare -a ARR=(`for _TP in $(grep "OS_NAME" -l \
+        --exclude={os_selection\*}.\* shlib/*); do echo ${_TP} ; done`)
+      for NAME in "${ARR[@]}"; do
+        source ${NAME}
+        printf "Install ${OS_NAME} ? [yn] :" ; read CHECK
+        if [ "$(echo "$CHECK" | tr "[a-z]" "[A-Z]")" == "Y" ]; then
+          [[ -n ${x86} ]] && { OS_NAME_x86=${x86} ; } || { OS_NAME_x86="" ; }
+          [[ -n ${i386} ]] && { OS_NAME_i386=${i386} ; }||{ OS_NAME_i386="" ; }
+        fnc_arr[${CNT}]="install_${OS_NAME} ${version} ${OS_NAME_x86} ${OS_NAME_i386}"
+        CNT=$(expr $CNT + 1)
+        fi
+      done
+    ;;
+    [Nn][Oo]|[Nn]|*)
+      declare -a ARR=(`for _TP in $(grep "OS_NAME" -l \
+        --exclude={os_selection\*}.\* shlib/*); do echo ${_TP} ; done`)
+      for NAME in "${ARR[@]}"; do
+        source ${NAME}
+        [[ -n ${x86} ]] && { OS_NAME_x86=${x86} ; } || { OS_NAME_x86="" ; }
+        [[ -n ${i386} ]] && { OS_NAME_i386=${i386} ; }||{ OS_NAME_i386="" ; }
+        fnc_arr[${CNT}]="install_${OS_NAME} ${version} ${OS_NAME_x86} ${OS_NAME_i386}"
+      done
+    ;;
+  esac
+}

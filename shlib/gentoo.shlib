@@ -1,0 +1,33 @@
+OS_NAME="gentoo"
+x86="amd64"
+i386="x86"
+version=${gentoo_version}
+
+function install_gentoo()
+{
+  local VER=$1
+  shift 1
+  while [[ $# -gt 0 ]]; do
+    local F_NAME="latest-install-${1}-minimal.txt"
+    local SERVER="http://mirror.mcs.anl.gov/pub/gentoo/releases"
+    local VER_L=$(curl -f -s ${SERVER}/${1}/autobuilds/${F_NAME} \
+      | tail -n 1 | cut -d"/" -f1 )
+    local DL_ADDY="${SERVER}/${1}/autobuilds/${VER_L}/"
+    local IMAGE="install-${1}-minimal-${VER_L}.iso"
+    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
+      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; continue ; }
+
+echo "menuentry \"Gentoo minimal ${VER_L} ${1}\" {
+  set isofile=\"/iso/${IMAGE}\"
+  set bo1=\"root=/dev/ram0 init=/linuxrc nokeymap cdroot cdboot\"
+  set bo2=\"looptype=squashfs loop=/image.squashfs initrd=gentoo.igz\"
+  set bo3=\"usbcore.autosuspend=1 console=tty0 rootdelay=10 isoboot=\$isofile\"
+  loopback loop \$isofile
+  linux (loop)/isolinux/gentoo \$bo1 \$bo2 \$bo3
+  initrd (loop)/isolinux/gentoo.igz
+}
+" >> ${GRUBCONF}
+    shift 1
+  done
+}
