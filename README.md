@@ -1,6 +1,5 @@
 multiboot
 =========
-
 This script is used to create a grub2 bootable flash disc with multiple
 linux distros and OpenBSD.
 
@@ -18,16 +17,22 @@ As of writing, these are the OS'es that are being installed:
 
 Requirements
 ----
-
 -  Linux       (tested on gentoo: http://www.gentoo.org/)
 -  Bash        (http://tiswww.case.edu/php/chet/bash/bashtop.html)
 -  Wget        (http://www.gnu.org/software/wget/)
 -  Grub2       (https://www.gnu.org/software/grub/)
 -  Dosfstools  (http://daniel-baumann.ch/software/dosfstools/)
 
+Installation / Usage
+----
+git clone git@github.com:cbodden/multiboot.git
+cd multiboot
+sudo ./multiboot.sh
+
 Todo / Add
 ----
-- lots of stuff....
+- need to update documentation
+- lots of other stuff....
 
 Troubleshooting
 ----
@@ -38,7 +43,6 @@ running this script.
 
 License and Author
 ----
-
 Author:: Cesar Bodden (cesar@pissedoffadmins.com)
 
 Copyright:: 2014, Pissedoffadmins.com
