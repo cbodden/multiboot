@@ -25,9 +25,11 @@ Requirements
 
 Installation / Usage
 ----
+```
 git clone git@github.com:cbodden/multiboot.git
 cd multiboot
 sudo ./multiboot.sh
+```
 
 Todo / Add
 ----
