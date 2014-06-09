@@ -18,7 +18,7 @@ As of writing, these are the OS'es that are being installed:
 Requirements
 ----
 -  Linux       (tested on gentoo: http://www.gentoo.org/)
--  Bash        (http://tiswww.case.edu/php/chet/bash/bashtop.html)
+-  Bash        (http://www.gnu.org/software/bash/)
 -  Wget        (http://www.gnu.org/software/wget/)
 -  Grub2       (https://www.gnu.org/software/grub/)
 -  Dosfstools  (http://daniel-baumann.ch/software/dosfstools/)
