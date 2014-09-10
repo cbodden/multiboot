@@ -3,6 +3,9 @@ x86=""
 i386="i386"
 version=${tails_version}
 
+## to view versions
+## curl -s dl.amnesia.boum.org/tails/stable/ | sed 's/<[^>]*>//g' | grep i386 | cut -d/ -f1
+
 function install_tails()
 {
   local VER=$1

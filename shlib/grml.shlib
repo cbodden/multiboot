@@ -3,6 +3,9 @@ x86="96"
 i386=""
 version=${grml_version}
 
+## to show versions
+## curl -s http://mirror.us.leaseweb.net/grml/ | sed 's/<[^>]*>//g' | grep grml | grep -v 'torrent\|md5\|sha1\|netboot'
+
 function install_grml()
 {
   local VER=$1

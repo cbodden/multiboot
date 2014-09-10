@@ -3,6 +3,9 @@ x86="x86_64"
 i386="i386"
 version=$fedora_version
 
+## version check
+## curl -s linux.mirrors.es.net/fedora/releases/ | sed 's/<[^>]*>//g' | grep -v '^$\|Index\|test\|SYNC_STAMP\|Apache' | cut -d/ -f1 | tail -n 1
+
 function install_fedora()
 {
   local VER=$1

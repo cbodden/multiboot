@@ -3,6 +3,9 @@ x86="amd64"
 i386="i386"
 version=${netbsd_version}
 
+## to show versions
+## curl -s mirror.planetunix.net/pub/NetBSD/ | sed 's/<[^>]*>//g' | grep NetBSD | grep -v 'release\|current\|archive\|Index' | cut -d/ -f1
+
 function install_netbsd()
 {
   local VER=$1

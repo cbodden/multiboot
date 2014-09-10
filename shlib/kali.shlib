@@ -3,6 +3,9 @@ x86="amd64"
 i386=""
 version=${kali_version}
 
+## to show version
+## curl -s http://cdimage.kali.org/kali-latest/amd64/ | sed 's/<[^>]*>//g' | grep kali | grep -v 'Index\|Apache\|torrent' | sed 's/.iso[^@]*$//'
+
 function install_kali()
 {
   local VER=$1

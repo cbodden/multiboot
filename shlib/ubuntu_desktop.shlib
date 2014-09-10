@@ -3,6 +3,9 @@ x86="amd64"
 i386="i386"
 version=${ubuntu_desktop_version}
 
+## to show versions
+## curl -s releases.ubuntu.com/ | sed 's/<[^>]*>//g' | grep '^ [0-9]' | cut -d/ -f1
+
 function install_ubuntu_desktop()
 {
   local VER=$1

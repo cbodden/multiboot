@@ -3,6 +3,9 @@ x86="amd64"
 i386="i386"
 version=${openbsd_version}
 
+## to see versions
+## curl -s openbsd.mirrors.hoobly.com | sed 's/<[^>]*>//g' | grep Name | awk '{print $6}' | cut -d/ -f1
+
 function install_openbsd()
 {
   local VER=$1

@@ -3,6 +3,9 @@ x86="amd64"
 i386="i386"
 version=${debian_version}
 
+## to show versions
+## curl -s cdimage.debian.org/debian-cd/ | sed -e 's/<[^>]*>//g' -e '/^$/d' | grep -v 'Index\|Name\|project\|ls\|Apache' | tail -n +4
+
 function install_debian()
 {
   local VER=$1
