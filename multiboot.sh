@@ -18,11 +18,11 @@
 #      REVISION: 20
 #===============================================================================
 
-source multiboot.config
-source shlib/os_selection.shlib
+# source multiboot.config
+source shlib/selection.shlib
 source shlib/main.shlib
 
-os_selection
+selection
 disk_detect
 disk_action
 grub_disk
