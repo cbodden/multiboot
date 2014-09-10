@@ -2,6 +2,8 @@ multiboot
 =========
 This script is used to create a grub2 bootable flash disc with multiple
 linux distros and OpenBSD.
+At present for full install, you will need a flash disk of at least 4GB 
+or larger.
 
 As of writing, these are the OS'es that are being installed:
 - debian netinstall (amd64 & i386)
@@ -20,6 +22,7 @@ Requirements
 -  Linux       (tested on gentoo: http://www.gentoo.org/)
 -  Bash        (http://www.gnu.org/software/bash/)
 -  Wget        (http://www.gnu.org/software/wget/)
+-  cURL        (http://curl.haxx.se)
 -  Grub2       (https://www.gnu.org/software/grub/)
 -  Dosfstools  (http://daniel-baumann.ch/software/dosfstools/)
 
@@ -33,13 +36,14 @@ sudo ./multiboot.sh
 
 Todo / Add
 ----
+- adding version set to current on all distros
 - need to update documentation
 - lots of other stuff....
 
 Troubleshooting
 ----
 This script was tested using a system that does not automount the usb
-flash drive. 
+flash drive.
 If your distro automounts the flash disk, try unmounting it first before
 running this script.
 
