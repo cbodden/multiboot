@@ -1,17 +1,17 @@
 OS_NAME="openbsd"
 x86="amd64"
 i386="i386"
+DLA="openbsd.mirrors.hoobly.com"
+openbsd_version=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep Name |\
+  awk '{print $6}' | cut -d/ -f1)`
 version=${openbsd_version}
-
-## to see versions
-## curl -s openbsd.mirrors.hoobly.com | sed 's/<[^>]*>//g' | grep Name | awk '{print $6}' | cut -d/ -f1
 
 function install_openbsd()
 {
   local VER=$1
   shift 1
   while [[ $# -gt 0 ]]; do
-    local DL_ADDY="openbsd.mirrors.hoobly.com/${VER}/${1}/"
+    local DLP="${VER}/${1}/"
     local WGET_OPT="-r -l 1 -nd -e robots=off -R '*.html*,*.gif'"
     local WGET_PATH="--directory-prefix=${USBTMPDIR}/${VER}/${1}/"
 
@@ -21,7 +21,7 @@ echo "menuentry \"OpenBSD ${VER} ${1}\" {
   kopenbsd /${VER}/${1}/bsd.rd
 }
 " >> ${GRUBCONF}
-    wget ${DL_ADDY} ${WGET_OPT} ${WGET_PATH} || echo "OpenBSD dloaded"
+    wget ${DLA} ${WGET_OPT} ${WGET_PATH} || echo "OpenBSD dloaded"
     shift 1
   done
 }

@@ -75,8 +75,10 @@ p
 t
 c
 a
+1
 w
 EOF
+## added 1 on line 78 due to fdisk (util-linux 2.20.1) -- linux mint
   mkfs.vfat ${USBSTICK}1
 }
 

@@ -1,20 +1,21 @@
 OS_NAME="kali"
 x86="amd64"
 i386=""
+DLA="http://cdimage.kali.org/kali-latest/"
+kali_version=`echo $(curl -s http://cdimage.kali.org |\
+  sed -e 's/<[^>]*>//g' -e 's/.iso[^@]*$//' | grep kali |\
+  grep -v 'latest\|Apache' | tail -n 1 | cut -d/ -f1 | cut -d- -f2)`
 version=${kali_version}
-
-## to show version
-## curl -s http://cdimage.kali.org/kali-latest/amd64/ | sed 's/<[^>]*>//g' | grep kali | grep -v 'Index\|Apache\|torrent' | sed 's/.iso[^@]*$//'
 
 function install_kali()
 {
   local VER=$1
   shift 1
   while [[ $# -gt 0 ]]; do
-    local DL_ADDY="http://cdimage.kali.org/kali-latest/${1}/"
+    local DLP="${1}/"
     local IMAGE="kali-linux-${VER}-${1}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
-      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
+      { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
 
 echo "menuentry \"Kali Linux ${VER} ${1}\" {

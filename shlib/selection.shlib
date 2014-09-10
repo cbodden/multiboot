@@ -1,4 +1,4 @@
-function os_selection()
+function selection()
 {
   CNT=0
   printf "${FMT}" "${MNHDR}" "Interactive Install ?" ": " ; read yn
@@ -13,7 +13,8 @@ function os_selection()
           [[ -n ${x86} ]] && { OS_NAME_x86=${x86} ; } || { OS_NAME_x86="" ; }
           [[ -n ${i386} ]] && { OS_NAME_i386=${i386} ; }||{ OS_NAME_i386="" ; }
         fnc_arr[${CNT}]="install_${OS_NAME} \
-          ${version} ${OS_NAME_x86} ${OS_NAME_i386}"
+          ${OS_NAME_x86} ${OS_NAME_i386}"
+          # ${version} ${OS_NAME_x86} ${OS_NAME_i386}"
         CNT=$(expr $CNT + 1)
         fi
       done

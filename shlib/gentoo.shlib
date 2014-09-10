@@ -1,6 +1,7 @@
 OS_NAME="gentoo"
 x86="amd64"
 i386="x86"
+gentoo_version="current"
 version=${gentoo_version}
 
 function install_gentoo()

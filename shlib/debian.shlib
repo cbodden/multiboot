@@ -1,20 +1,26 @@
 OS_NAME="debian"
 x86="amd64"
 i386="i386"
+DLA="cdimage.debian.org/debian-cd/"
+debian_version=`echo $(curl -s ${DLA} | sed -e 's/<[^>]*>//g' -e '/^$/d' |\
+  grep -v 'Index\|Name\|project\|ls\|Apache\|live\|current' | tail -n +4 |\
+  cut -d"/" -f1)`
 version=${debian_version}
-
-## to show versions
-## curl -s cdimage.debian.org/debian-cd/ | sed -e 's/<[^>]*>//g' -e '/^$/d' | grep -v 'Index\|Name\|project\|ls\|Apache' | tail -n +4
 
 function install_debian()
 {
   local VER=$1
   shift 1
   while [[ $# -gt 0 ]]; do
-    local DL_ADDY="ftp://cdimage.debian.org/debian-cd/${VER}/${1}/iso-cd/"
-    local IMAGE="debian-*-${1}-netinst.iso"
-    [[ -n $(grep "exists" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
-      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+  ## local DLA="cdimage.debian.org/debian-cd/"
+  ## local version=`echo $(curl -s ${DLA} | sed -e 's/<[^>]*>//g' -e '/^$/d' |\
+  ##     grep -v 'Index\|Name\|project\|ls\|Apache\|live\|current' | tail -n +4 |\
+  ##     cut -d"/" -f1)`
+    local DLP="${VER}/${1}/iso-cd/"
+    # local IMAGE="debian-*-${1}-netinst.iso"
+    local IMAGE="debian-${version}-${1}-netinst.iso"
+    [[ -n $(grep "exists" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
+      { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
 
 echo "menuentry \"Debian netinst ${VER} ${1}\" {

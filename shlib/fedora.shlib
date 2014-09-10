@@ -1,10 +1,10 @@
 OS_NAME="fedora"
 x86="x86_64"
 i386="i386"
-version=$fedora_version
-
-## version check
-## curl -s linux.mirrors.es.net/fedora/releases/ | sed 's/<[^>]*>//g' | grep -v '^$\|Index\|test\|SYNC_STAMP\|Apache' | cut -d/ -f1 | tail -n 1
+DLA="mirror.pnl.gov/fedora/linux/releases/"
+fedora_version=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' |\
+  grep -v '^$\|Index\|test\|SYNC_STAMP\|Apache' | cut -d/ -f1 | tail -n 1)`
+version=${fedora_version}
 
 function install_fedora()
 {
@@ -13,11 +13,11 @@ function install_fedora()
   while [[ $# -gt 0 ]]; do
     [[ "$1" == i386 ]] && { local VER_3="i386"; local VER_6="i686"; } ||
       { local VER_3=$(echo ${1}); local VER_6=$(echo ${1}); }
-    local DL_ADDY="mirror.pnl.gov/fedora/linux/releases/${VER}/Live/${VER_3}/"
+    local DLP="${VER}/Live/${VER_3}/"
     local IMAGE="Fedora-Live-Desktop-${VER_6}-${VER}-1.iso"
     local FED_OPTS="--class fedora --class gnu-linux --class gnu --class os"
-    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
-      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
+      { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
 
 echo "menuentry \"Fedora desktop ${VER} ${VER_3}\" ${FED_OPTS} {
