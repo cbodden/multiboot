@@ -1,6 +1,7 @@
 OS_NAME="ubuntu_desktop"
 x86="amd64"
 i386="i386"
+ubuntu_desktop_version="14.04.1"
 version=${ubuntu_desktop_version}
 
 ## to show versions

@@ -1,6 +1,7 @@
 OS_NAME="ubuntu_server"
 x86="amd64"
 i386="i386"
+ubuntu_server_version="14.04.1"
 version=${ubuntu_server_version}
 
 ## to show versions
