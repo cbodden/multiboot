@@ -18,9 +18,8 @@
 #      REVISION: 20
 #===============================================================================
 
-# source multiboot.config
-source shlib/selection.shlib
-source shlib/main.shlib
+source core/selection.shlib
+source core/main.shlib
 
 selection
 disk_detect

@@ -1,27 +1,25 @@
 OS_NAME="openbsd"
 x86="amd64"
 i386="i386"
-DLA="openbsd.mirrors.hoobly.com"
-openbsd_version=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep Name |\
-  awk '{print $6}' | cut -d/ -f1)`
-version=${openbsd_version}
 
 function install_openbsd()
 {
-  local VER=$1
-  shift 1
   while [[ $# -gt 0 ]]; do
-    local DLP="${VER}/${1}/"
+    local ARCH=$1
+    local DLA="openbsd.mirrors.hoobly.com/"
+    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep Name |\
+      awk '{print $6}' | cut -d/ -f1)`
+    local DLP="${VER}/${ARCH}/"
     local WGET_OPT="-r -l 1 -nd -e robots=off -R '*.html*,*.gif'"
-    local WGET_PATH="--directory-prefix=${USBTMPDIR}/${VER}/${1}/"
+    local WGET_PATH="--directory-prefix=${USBTMPDIR}/${VER}/${ARCH}/"
 
-echo "menuentry \"OpenBSD ${VER} ${1}\" {
+echo "menuentry \"OpenBSD ${ARCH} ${VER}\" {
   insmod ext2
   set root=(hd0,msdos1)
-  kopenbsd /${VER}/${1}/bsd.rd
+  kopenbsd /${VER}/${ARCH}/bsd.rd
 }
 " >> ${GRUBCONF}
-    wget ${DLA} ${WGET_OPT} ${WGET_PATH} || echo "OpenBSD dloaded"
+    wget ${DLA}${DLP} ${WGET_OPT} ${WGET_PATH} || echo "OpenBSD dloaded"
     shift 1
   done
 }

@@ -1,29 +1,26 @@
 OS_NAME="ubuntu_server"
 x86="amd64"
 i386="i386"
-ubuntu_server_version="14.04.1"
-version=${ubuntu_server_version}
-
-## to show versions
-## curl -s releases.ubuntu.com/ | sed 's/<[^>]*>//g' | grep '^ [0-9]' | cut -d/ -f1
 
 function install_ubuntu_server()
 {
-  local VER=$1
-  shift 1
   while [[ $# -gt 0 ]]; do
-    if [[ "${VER}" != "12.04.4" ]]; then
-      [[ "$1" == i386 ]] && local EFI="" || local EFI=".efi"
+    local ARCH=$1
+    local DLA="http://releases.ubuntu.com/"
+    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^ [0-9]' |\
+      grep "LTS" | tail -n 1 | cut -d/ -f1)`
+    local DLP="${VER}/"
+    if [[ "${ARCH}" != "12.04.4" ]]; then
+      [[ "${ARCH}" == i386 ]] && local EFI="" || local EFI=".efi"
     else
       local EFI=""
     fi
-    local DL_ADDY="http://releases.ubuntu.com/${VER}/"
-    local IMAGE="ubuntu-${VER}-server-${1}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] &&
-      { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+    local IMAGE="ubuntu-${VER}-server-${ARCH}.iso"
+    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
+      { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
 
-echo "menuentry \"Ubuntu ${VER} server ${1}\" {
+echo "menuentry \"Ubuntu ${ARCH} server ${VER}\" {
   set isofile=\"/iso/${IMAGE}\"
   set bo1=\"cdrom-detect/try-usb=true file=/cdrom/preseed/ubuntu-server.seed\"
   set bo2=\"iso-scan/filename=\$isofile noprompt noeject --\"

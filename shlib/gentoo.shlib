@@ -1,14 +1,13 @@
 OS_NAME="gentoo"
 x86="amd64"
 i386="x86"
-gentoo_version="current"
-version=${gentoo_version}
 
 function install_gentoo()
 {
-  local VER=$1
-  shift 1
   while [[ $# -gt 0 ]]; do
+    local gentoo_version="current"
+    local version=${gentoo_version}
+    local VER=$1
     local F_NAME="latest-install-${1}-minimal.txt"
     local SERVER="http://mirror.mcs.anl.gov/pub/gentoo/releases"
     local VER_L=$(curl -f -s ${SERVER}/${1}/autobuilds/${F_NAME} \

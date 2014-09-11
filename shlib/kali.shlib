@@ -1,24 +1,22 @@
 OS_NAME="kali"
 x86="amd64"
 i386=""
-DLA="http://cdimage.kali.org/kali-latest/"
-kali_version=`echo $(curl -s http://cdimage.kali.org |\
-  sed -e 's/<[^>]*>//g' -e 's/.iso[^@]*$//' | grep kali |\
-  grep -v 'latest\|Apache' | tail -n 1 | cut -d/ -f1 | cut -d- -f2)`
-version=${kali_version}
 
 function install_kali()
 {
-  local VER=$1
-  shift 1
   while [[ $# -gt 0 ]]; do
+    local ARCH=$1
+    local DLA="http://cdimage.kali.org/kali-latest/"
+    local VER=`echo $(curl -s http://cdimage.kali.org |\
+      sed -e 's/<[^>]*>//g' -e 's/.iso[^@]*$//' | grep kali |\
+      grep -v 'latest\|Apache' | tail -n 1 | cut -d/ -f1 | cut -d- -f2)`
     local DLP="${1}/"
-    local IMAGE="kali-linux-${VER}-${1}.iso"
+    local IMAGE="kali-linux-${VER}-${ARCH}.iso"
     [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
       { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
 
-echo "menuentry \"Kali Linux ${VER} ${1}\" {
+echo "menuentry \"Kali Linux ${VER} ${ARCH}\" {
   set isofile=\"/iso/${IMAGE}\"
   set bo1=\"findiso=\$isofile boot=live noconfig=sudo username=root\"
   set bo2=\"hostname=kali quiet splash\"

@@ -1,25 +1,21 @@
 OS_NAME="tails"
 x86=""
 i386="i386"
-DLA="http://dl.amnesia.boum.org/tails/stable/"
-tails_version=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep i386 |\
-  cut -d/ -f1 | cut -d- -f3)`
-version=${tails_version}
 
-## to view versions
-## 
 function install_tails()
 {
-  local VER=$1
-  shift 1
   while [[ $# -gt 0 ]]; do
-    local DLP="tails-${1}-${VER}/"
-    local IMAGE="tails-${1}-${VER}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${IMAGE} 2>&1)) ]] &&
-      { wget ${DLA}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+    local ARCH=$1
+    local DLA="http://dl.amnesia.boum.org/tails/stable/"
+    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep i386 |\
+      cut -d/ -f1 | cut -d- -f3)`
+    local DLP="tails-${ARCH}-${VER}/"
+    local IMAGE="tails-${ARCH}-${VER}.iso"
+    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
+      { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
 
-echo "menuentry \"Tails ${VER} ${1} default\" {
+echo "menuentry \"Tails ${ARCH} ${VER} default\" {
   set isofile=\"/iso/${IMAGE}\"
   set isouuid=\"/dev/disk/by-uuid/${UUID}/iso/${IMAGE}\"
   set bo1=\"boot=live config\"
@@ -29,7 +25,7 @@ echo "menuentry \"Tails ${VER} ${1} default\" {
 }
 " >> ${GRUBCONF}
 
-echo "menuentry \"Tails ${VER} ${1} masquerade\" {
+echo "menuentry \"Tails ${ARCH} ${VER} masquerade\" {
   set isofile=\"/iso/${IMAGE}\"
   set isouuid=\"/dev/disk/by-uuid/${UUID}/iso/${IMAGE}\"
   set bo1=\"boot=live config live-media=removable nopersistent noprompt quiet\"

@@ -1,8 +1,8 @@
 multiboot
 =========
 This script is used to create a grub2 bootable flash disc with multiple
-linux distros and OpenBSD.
-At present for full install, you will need a flash disk of at least 4GB 
+current linux distros, OpenBSD, and NetBSD.
+At present for full install, you will need a flash disk of at least 4GB
 or larger.
 
 As of writing, these are the OS'es that are being installed:
@@ -36,7 +36,6 @@ sudo ./multiboot.sh
 
 Todo / Add
 ----
-- adding version set to current on all distros
 - need to update documentation
 - lots of other stuff....
 
