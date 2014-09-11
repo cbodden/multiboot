@@ -1,0 +1,33 @@
+OS_NAME="centos"
+x86="x86_64"
+i386=""
+
+function install_debian()
+{
+  while [[ $# -gt 0 ]]; do
+    local ARCH=$1
+    local DLA="http://mirror.es.its.nyu.edu/centos/"
+    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^[0-9]' |\
+      cut -d/ -f1 | sort -n | tail -n 1)`
+    local DLP="${VER}/isos/${ARCH}/iso-cd/"
+    local IMAGE="CentOS-${VER}-${ARCH}-Minimal.iso"
+    [[ -n $(grep "exists" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
+      { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
+      { shift 1 ; continue ; }
+
+echo "menuentry \"Centos minimal ${ARCH} ${VER}\" {
+    set isofile=\"/iso/${IMAGE}\"
+    loopback (hd0,1)\$isofile
+    linux (loop)/isolinux/vmlinuz noeject inst.stage2=hd:\"${UUID}/iso/${IMAGE}\"
+    initrd (loop)/isolinux/initrd.img
+}
+" >> ${GRUBCONF}
+    shift 1
+  done
+}
+#menuentry '[loopback]CentOS-7.0-1406-x86_64-DVD' {
+#    set isofile='/boot/iso/CentOS-7.0-1406-x86_64-DVD.iso'
+#    loopback (hd1,2)$isofile
+#    linux (loop)/isolinux/vmlinuz noeject inst.stage2=hd:/dev/sdb2:/$isofile
+#    initrd (loop)/isolinux/initrd.img
+#}
