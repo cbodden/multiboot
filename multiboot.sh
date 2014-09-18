@@ -15,16 +15,28 @@
 #        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
 #       CREATED: 15 April 2014
-#      REVISION: 20
+#      REVISION: 26
 #===============================================================================
 
 source core/selection.shlib
 source core/main.shlib
 
-selection
-disk_detect
-disk_action
-grub_disk
-grub_header
-for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
-cleanup
+case "$1" in
+  'debug'|'-d')
+    selection
+    grub_disk_debug
+    grub_header
+    for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
+    cleanup_debug
+  ;;
+
+  *)
+    selection
+    disk_detect
+    disk_action
+    grub_disk
+    grub_header
+    for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
+    cleanup
+  ;;
+esac

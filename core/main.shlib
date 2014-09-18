@@ -36,6 +36,11 @@ function cleanup()
   rm -rf ${TMP_FILE}
 }
 
+function cleanup_debug()
+{
+  rm -rf ${TMP_FILE}
+}
+
 function logd()
 {
   local LOGFILE=/tmp/$0
@@ -92,6 +97,12 @@ function grub_disk()
     { grub2-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; } ||
     { grub-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; }
   mkdir ${USBTMPDIR}/iso/
+}
+
+function grub_disk_debug()
+{
+  mkdir ${USBTMPDIR}
+  mkdir -p ${USBTMPDIR} ${USBTMPDIR}/iso/ ${USBTMPDIR}/boot/grub/
 }
 
 function grub_header()
