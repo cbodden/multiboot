@@ -1,3 +1,4 @@
+OS_INSTALL="1"
 OS_NAME="fedora"
 x86="x86_64"
 i386="i386"

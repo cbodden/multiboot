@@ -1,3 +1,4 @@
+OS_INSTALL="1"
 OS_NAME="ubuntu_desktop"
 x86="amd64"
 i386="i386"

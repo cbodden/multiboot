@@ -1,3 +1,4 @@
+OS_INSTALL="1"
 OS_NAME="grml"
 x86="96"
 i386=""

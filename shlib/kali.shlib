@@ -1,3 +1,4 @@
+OS_INSTALL="1"
 OS_NAME="kali"
 x86="amd64"
 i386=""
