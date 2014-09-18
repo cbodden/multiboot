@@ -4,9 +4,9 @@ function selection()
   printf "${FMT}" "${MNHDR}" "Interactive Install ?" ": " ; read yn
   case "${yn}" in
     [Yy][Ee][Ss]|[Yy])
-      declare -a ARR=(`for _TP in $(grep "OS_NAME" -l \
+      declare -a OSN=(`for _TP in $(grep "OS_NAME" -l \
         --exclude={selection\*}.\* shlib/*); do echo ${_TP} ; done`)
-      for NAME in "${ARR[@]}"; do
+      for NAME in "${OSN[@]}"; do
         source ${NAME}
         printf "Install ${OS_NAME} ? [yn] :" ; read CHECK
         if [ "$(echo "$CHECK" | tr "[a-z]" "[A-Z]")" == "Y" ]; then
@@ -16,9 +16,9 @@ function selection()
       done
     ;;
     [Nn][Oo]|[Nn]|*)
-      declare -a ARR=(`for _TP in $(grep "OS_NAME" -l \
+      declare -a OSN=(`for _TP in $(grep "OS_NAME" -l \
         --exclude={selection\*}.\* shlib/*); do echo ${_TP} ; done`)
-      for NAME in "${ARR[@]}"; do
+      for NAME in "${OSN[@]}"; do
         source ${NAME}
         if [ "${OS_INSTALL}" -eq 1 ]; then
           fnc_arr[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
