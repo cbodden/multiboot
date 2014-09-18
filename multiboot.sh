@@ -21,29 +21,29 @@
 source core/selection.shlib
 source core/main.shlib
 
-case "$1" in
-  'debug'|'-d')
-    selection
-    grub_disk_debug
-    grub_header
-    for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
-    cleanup_debug
-  ;;
+if [ $# -ge 1 ]; then
+  case "$1" in
+    'debug'|'-d')
+      selection
+      grub_disk_debug
+      grub_header
+      for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
+      cleanup_debug
+    ;;
 
-  'install'|'-i')
-    selection
-    disk_detect
-    disk_action
-    grub_disk
-    grub_header
-    for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
-    cleanup
-  ;;
-
-  *)
-    version
-    description
-    usage
-    exit 1
-  ;;
-esac
+    'install'|'-i')
+      selection
+      disk_detect
+      disk_action
+      grub_disk
+      grub_header
+      for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
+      cleanup
+    ;;
+  esac
+else
+  version
+  description
+  usage
+  exit 1
+fi
