@@ -8,12 +8,14 @@ NAME=$(basename $0)
 
 function version()
 {
+  clear
   local VER="0.10"
   cat <<EOL
-${NAME} version ${VER}
-Copyright (C) 2014 cesar@pissedoffadmins.com
-This program comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it.
+
+                             ${NAME} version ${VER}
+                  Copyright (C) 2014 cesar@pissedoffadmins.com
+                This program comes with ABSOLUTELY NO WARRANTY.
+         This is free software, and you are welcome to redistribute it.
 
 EOL
 }
@@ -21,10 +23,11 @@ EOL
 function description()
 {
   cat <<EOL
-This script is used to create a grub2 bootable flash disc with multiple,
-current linux distros, OpenBSD, and NetBSD.
-At present for full install, you will need a flash disk of
-at least 4GB or larger.
+
+    This script is used to create a grub2 bootable flash disc with multiple,
+                  current linux distros, OpenBSD, and NetBSD.
+           At present for full install, you will need a flash disk of
+                            at least 4GB or larger.
 
 EOL
 }
@@ -32,14 +35,15 @@ EOL
 function usage()
 {
   cat <<EOL
+
 Usage: sudo ${NAME} < debug (-d) | install (-i) | help (-h) >
 
 Usage examples:
-  sudo ${NAME} debug    # will install iso's and grub.conf to local disk
+  sudo ${NAME} debug (-d)   # will install iso's and grub.conf to local disk
 
-  sudo ${NAME} install  # will install iso's and grub.conf to usb disk
+  sudo ${NAME} install (-i) # will install iso's and grub.conf to usb disk
 
-  sudo ${NAME} help     # shows this message
+  sudo ${NAME} help         # shows this message
 
 EOL
 }
@@ -56,7 +60,7 @@ TMP_FILE=$(mktemp --tmpdir multiboot.$$.XXXXXXXXXX)
 
 # OS check && trap statement
 [[ $(uname) != "Linux" ]] && { printf "\nNeeds Linux\n"; exit 1; }
-trap 'echo "${NAME}: Ouch! Quitting." 1>&2 ; \
+trap 'printf "\n${NAME}: Ouch! Quitting.\n\n" 1>&2 ; \
   rm -rf ${TMP_FILE} ; exit 1' 0 1 2 3 9 15
 
 # check for sudo / root
