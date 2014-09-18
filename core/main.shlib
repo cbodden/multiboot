@@ -6,6 +6,44 @@ set -o nounset
 set -o errexit
 NAME=$(basename $0)
 
+function version()
+{
+  local VER="0.10"
+  cat <<EOL
+${NAME} version ${VER}
+Copyright (C) 2014 cesar@pissedoffadmins.com
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it.
+
+EOL
+}
+
+function description()
+{
+  cat <<EOL
+This script is used to create a grub2 bootable flash disc with multiple,
+current linux distros, OpenBSD, and NetBSD.
+At present for full install, you will need a flash disk of
+at least 4GB or larger.
+
+EOL
+}
+
+function usage()
+{
+  cat <<EOL
+Usage: sudo ${NAME} < debug (-d) | install (-i) | help (-h) >
+
+Usage examples:
+  sudo ${NAME} debug    # will install iso's and grub.conf to local disk
+
+  sudo ${NAME} install  # will install iso's and grub.conf to usb disk
+
+  sudo ${NAME} help     # shows this message
+
+EOL
+}
+
 # text format && color for messages
 ORN=$(tput setaf 3); RED=$(tput setaf 1); BLU=$(tput setaf 4)
 GRN=$(tput setaf 40); CLR=$(tput sgr0)
@@ -23,7 +61,8 @@ trap 'echo "${NAME}: Ouch! Quitting." 1>&2 ; \
 
 # check for sudo / root
 readonly R_UID="0"
-[[ "${UID}" -ne "${R_UID}" ]] && { printf "\nNeeds sudo\n"; exit 1; }
+[[ "${UID}" -ne "${R_UID}" ]] && { printf "\nNeeds sudo\n\n"; version;
+  description; usage; exit 1; }
 
 readonly USBTMPDIR="/usbtmpdir"
 readonly GRUBCONF="${USBTMPDIR}/boot/grub/grub.cfg"
@@ -113,3 +152,5 @@ set menu_color_normal=white/black
 set menu_color_highlight=white/green
 " >> ${GRUBCONF}
 }
+
+

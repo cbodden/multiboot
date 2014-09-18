@@ -30,7 +30,7 @@ case "$1" in
     cleanup_debug
   ;;
 
-  *)
+  'install'|'-i')
     selection
     disk_detect
     disk_action
@@ -38,5 +38,12 @@ case "$1" in
     grub_header
     for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
     cleanup
+  ;;
+
+  *)
+    version
+    description
+    usage
+    exit 1
   ;;
 esac
