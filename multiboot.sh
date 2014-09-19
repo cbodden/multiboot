@@ -15,7 +15,7 @@
 #        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
 #       CREATED: 15 April 2014
-#      REVISION: 26
+#      REVISION: 27
 #===============================================================================
 
 source core/selection.shlib
@@ -27,7 +27,7 @@ if [ $# -ge 1 ]; then
       selection
       grub_disk_debug
       grub_header
-      for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
+      for CMD in "${os_inst[@]}"; do $(echo ${CMD}) ; done
       cleanup_debug
     ;;
 
@@ -37,7 +37,7 @@ if [ $# -ge 1 ]; then
       disk_action
       grub_disk
       grub_header
-      for CMD in "${fnc_arr[@]}"; do $(echo ${CMD}) ; done
+      for CMD in "${os_inst[@]}"; do $(echo ${CMD}) ; done
       cleanup
     ;;
   esac

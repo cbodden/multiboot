@@ -10,7 +10,7 @@ function selection()
         source ${NAME}
         printf "Install ${OS_NAME} ? [yn] :" ; read CHECK
         if [ "$(echo "$CHECK" | tr "[a-z]" "[A-Z]")" == "Y" ]; then
-          fnc_arr[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
+          os_inst[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
           CNT=$(expr $CNT + 1)
         fi
       done
@@ -21,7 +21,7 @@ function selection()
       for NAME in "${OSN[@]}"; do
         source ${NAME}
         if [ "${OS_INSTALL}" -eq 1 ]; then
-          fnc_arr[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
+          os_inst[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
         fi
         CNT=$(expr $CNT + 1)
       done

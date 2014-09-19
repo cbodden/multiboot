@@ -6,7 +6,6 @@ set -o nounset
 set -o errexit
 NAME=$(basename $0)
 
-
 # text format && color for messages
 ORN=$(tput setaf 3); RED=$(tput setaf 1); BLU=$(tput setaf 4)
 GRN=$(tput setaf 40); CLR=$(tput sgr0)
@@ -127,7 +126,6 @@ a
 1
 w
 EOF
-## added 1 on line 78 due to fdisk (util-linux 2.20.1) -- linux mint
   mkfs.vfat ${USBSTICK}1 -n multiboot
 }
 
@@ -145,7 +143,6 @@ function grub_disk()
 
 function grub_disk_debug()
 {
-  mkdir ${USBTMPDIR}
   mkdir -p ${USBTMPDIR} ${USBTMPDIR}/iso/ ${USBTMPDIR}/boot/grub/
 }
 
@@ -157,5 +154,3 @@ set menu_color_normal=white/black
 set menu_color_highlight=white/green
 " >> ${GRUBCONF}
 }
-
-
