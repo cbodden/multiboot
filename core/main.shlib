@@ -117,6 +117,10 @@ function disk_action()
 {
   ## do not touch this section or you break the fdisk function!!!
   dd if=/dev/zero of=${USBSTICK} bs=1M count=1
+  ## testing parted instead
+  # parted -s ${usbstick} -- mklabel msdos \
+      # mkpart primary 0% 100%
+  # mkfs.vfat ${USBSTICK}1 -n multiboot
 fdisk ${USBSTICK} <<EOF
 n
 p
