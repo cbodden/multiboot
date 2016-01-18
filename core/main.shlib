@@ -55,13 +55,13 @@ Usage examples:
 EOL
 }
 
-# tmp file for function lines
-TMP_FILE=$(mktemp --tmpdir multiboot.$$.XXXXXXXXXX)
-
 # OS check && trap statement
-[[ $(uname) != "Linux" ]] && { printf "\nNeeds Linux\n"; exit 1; }
+[[ $(uname) != "Linux" ]] && { printf "${RED}Needs Linux\n${CLR}"; exit 1; }
 trap 'printf "\n${NAME}: Ouch! Quitting.\n\n" 1>&2 ; \
   rm -rf ${TMP_FILE} ; exit 1' 0 1 2 3 9 15
+
+# tmp file for function lines
+TMP_FILE=$(mktemp --tmpdir multiboot.$$.XXXXXXXXXX)
 
 # check for sudo / root
 readonly R_UID="0"
@@ -94,9 +94,12 @@ function logd()
 function disk_detect()
 {
   typeset -r MAINPROMPT="Select a disk to use: "
-  declare -a ARR=(`for DRIVE in $(fdisk -l | grep Disk |
-    grep -v "Disklabel\|identifier" | awk '{print $2}' | cut -d: -f1);
-    do echo $DRIVE ; done`)
+  ##declare -a ARR=(`for DRIVE in $(fdisk -l | grep Disk |
+  ##  grep -v "Disklabel\|identifier" | awk '{print $2}' | cut -d: -f1);
+  ##  do echo $DRIVE ; done`)
+  declare -a ARR=($(for DRIVE in $(fdisk -l |
+    awk '/Disk/&&!/ident|label/{print $2}' | cut -d: -f1);
+    do echo $DRIVE ; done))
   PS3=$MAINPROMPT
   clear
   select DRV in "${ARR[@]}"; do
