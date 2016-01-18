@@ -121,6 +121,9 @@ function disk_action()
   # parted -s ${usbstick} -- mklabel msdos \
       # mkpart primary 0% 100%
   # mkfs.vfat ${USBSTICK}1 -n multiboot
+  ## try doing disk detect with :
+  # lsblk --nodeps --output NAME,TRAN,RM
+  # http://unix.stackexchange.com/questions/40143/how-to-know-if-dev-sdx-is-a-connected-usb-or-hdd
 fdisk ${USBSTICK} <<EOF
 n
 p
