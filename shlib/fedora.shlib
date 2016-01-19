@@ -35,3 +35,5 @@ echo "menuentry \"Fedora desktop ${ARCH_6} ${VER}\" ${FED_OPTS} {
     shift 1
   done
 }
+
+## confirmed broken

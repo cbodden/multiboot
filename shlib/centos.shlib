@@ -43,4 +43,4 @@ echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {
 #    initrd (loop)/isolinux/initrd.img
 #}
 
-## notes - downloads, installs, fails at dracut
+## confirmed broken

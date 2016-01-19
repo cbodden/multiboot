@@ -8,8 +8,8 @@ function install_openbsd()
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="openbsd.mirrors.hoobly.com/"
-    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep Name |\
-      awk '{print $6}' | cut -d/ -f1)`
+    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep Name |\
+      awk '{print $6}' | cut -d/ -f1))
     local DLP="${VER}/${ARCH}/"
     local WGET_OPT="-r -l 1 -nd -e robots=off -R '*.html*,*.gif'"
     local WGET_PATH="--directory-prefix=${USBTMPDIR}/${VER}/${ARCH}/"
@@ -24,3 +24,5 @@ echo "menuentry \"OpenBSD ${ARCH} ${VER}\" {
     shift 1
   done
 }
+
+## confirmed working

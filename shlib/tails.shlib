@@ -8,8 +8,8 @@ function install_tails()
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="http://dl.amnesia.boum.org/tails/stable/"
-    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep i386 |\
-      cut -d/ -f1 | cut -d- -f3)`
+    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep i386 |\
+      cut -d/ -f1 | cut -d- -f3))
     local DLP="tails-${ARCH}-${VER}/"
     local IMAGE="tails-${ARCH}-${VER}.iso"
     [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
@@ -40,3 +40,5 @@ echo "menuentry \"Tails ${ARCH} ${VER} masquerade\" {
     shift 1
   done
 }
+
+## confirmed working

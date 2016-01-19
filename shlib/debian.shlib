@@ -29,4 +29,4 @@ echo "menuentry \"Debian netinst ${ARCH} ${VER}\" {
   done
 }
 
-## tested - confirmed working
+## confirmed working
