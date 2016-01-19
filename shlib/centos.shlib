@@ -34,13 +34,4 @@ echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {
   done
 }
 
-#echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {
-#    set bo1=\"noeject inst.stage2=hd:\"${UUID}/iso/${IMAGE}\"\"
-#    set bo2=\"root=live:LABEL="multiboot"\"
-#    set isofile=\"/iso/${IMAGE}\"
-#    loopback loop (hd0,1)\$isofile
-#    linux (loop)/isolinux/vmlinuz \$bo1 \$bo2
-#    initrd (loop)/isolinux/initrd.img
-#}
-
 ## confirmed broken
