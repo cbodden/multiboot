@@ -8,8 +8,8 @@ function install_fedora()
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="mirror.pnl.gov/fedora/linux/releases/"
-    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' |\
-      grep -v '^$\|Index\|test\|SYNC_STAMP\|Apache' | cut -d/ -f1 | tail -n 1)`
+    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' |\
+      grep -v '^$\|Index\|test\|SYNC_STAMP\|Apache' | cut -d/ -f1 | tail -n 1))
     [[ "${ARCH}" == i386 ]] && { local ARCH_3="i386"; local ARCH_6="i686"; } ||
       { local ARCH_3=$(echo ${1}); local ARCH_6=$(echo ${1}); }
     local DLP="${VER}/Live/${ARCH}/"
