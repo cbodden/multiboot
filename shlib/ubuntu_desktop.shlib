@@ -8,8 +8,8 @@ function install_ubuntu_desktop()
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="http://releases.ubuntu.com/"
-    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^ [0-9]' |\
-      cut -d/ -f1 | sort -n | tail -n 1)`
+    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^ [0-9]' |\
+      cut -d/ -f1 | sort -n | tail -n 1))
     [[ "$1" == i386 ]] && EFI="" || EFI=".efi"
     local DLP="${VER}/"
     local IMAGE="ubuntu-${VER}-desktop-${ARCH}.iso"
@@ -28,3 +28,5 @@ echo "menuentry \"Ubuntu ${ARCH} desktop ${VER}\" {
     shift 1
   done
 }
+
+## confirmed working

@@ -8,8 +8,8 @@ function install_ubuntu_server()
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="http://releases.ubuntu.com/"
-    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^ [0-9]' |\
-      grep "LTS" | tail -n 1 | cut -d/ -f1)`
+    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^ [0-9]' |\
+      grep "LTS" | cut -d/ -f1 | sort -r | head -n 1))
     local DLP="${VER}/"
     if [[ "${ARCH}" != "12.04.4" ]]; then
       [[ "${ARCH}" == i386 ]] && local EFI="" || local EFI=".efi"
@@ -33,3 +33,5 @@ echo "menuentry \"Ubuntu ${ARCH} server ${VER}\" {
     shift 1
   done
 }
+
+## confirmed working
