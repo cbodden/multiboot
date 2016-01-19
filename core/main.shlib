@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 LANG=C
 set -o pipefail
@@ -58,7 +58,7 @@ EOL
 # OS check && trap statement
 [[ $(uname) != "Linux" ]] && { printf "${RED}Needs Linux\n${CLR}"; exit 1; }
 trap 'printf "\n${NAME}: Ouch! Quitting.\n\n" 1>&2 ; \
-  rm -rf ${TMP_FILE} ; exit 1' 0 1 2 3 9 15
+  rm -rf ${TMP_FILE} ; exit 1' 1 2 3 9 15
 
 # tmp file for function lines
 TMP_FILE=$(mktemp --tmpdir multiboot.$$.XXXXXXXXXX)
