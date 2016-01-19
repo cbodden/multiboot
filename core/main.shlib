@@ -16,7 +16,7 @@ MNHDR="${BLU}[*]${CLR} "; BDHDR="${RED}[*]${CLR}"; COLHDR="${GRN}[*]${CLR} "
 function version()
 {
   clear
-  local VER="0.10"
+  local VER="0.30"
   cat <<EOL
 
                              ${NAME} version ${VER}
@@ -93,13 +93,9 @@ function logd()
 
 function disk_detect()
 {
-  typeset -r MAINPROMPT="Select a disk to use: "
-  ##declare -a ARR=(`for DRIVE in $(fdisk -l | grep Disk |
-  ##  grep -v "Disklabel\|identifier" | awk '{print $2}' | cut -d: -f1);
-  ##  do echo $DRIVE ; done`)
-  declare -a ARR=($(for DRIVE in $(fdisk -l |
-    awk '/Disk/&&!/ident|label/{print $2}' | cut -d: -f1);
-    do echo $DRIVE ; done))
+  typeset -r MAINPROMPT="Select a USB disk to use: "
+  declare -a ARR=($(for DRIVE in $(lsblk -d -n -o NAME,TRAN |
+    awk '/usb/{ print "/dev/"$1 }'); do echo $DRIVE ; done))
   PS3=$MAINPROMPT
   clear
   select DRV in "${ARR[@]}"; do
@@ -115,27 +111,9 @@ function disk_detect()
 
 function disk_action()
 {
-  ## do not touch this section or you break the fdisk function!!!
   dd if=/dev/zero of=${USBSTICK} bs=1M count=1
-  ## testing parted instead
-  # parted -s ${usbstick} -- mklabel msdos \
-      # mkpart primary 0% 100%
-  # mkfs.vfat ${USBSTICK}1 -n multiboot
-  ## try doing disk detect with :
-  # lsblk --nodeps --output NAME,TRAN,RM
-  # http://unix.stackexchange.com/questions/40143/how-to-know-if-dev-sdx-is-a-connected-usb-or-hdd
-fdisk ${USBSTICK} <<EOF
-n
-p
-1
-
-
-t
-c
-a
-1
-w
-EOF
+  parted -s ${USBSTICK} -- mklabel msdos \
+    mkpart primary 0% 100%
   mkfs.vfat ${USBSTICK}1 -n multiboot
 }
 
