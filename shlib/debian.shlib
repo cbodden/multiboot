@@ -8,9 +8,9 @@ function install_debian()
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="cdimage.debian.org/debian-cd/"
-    local VER=`echo $(curl -s ${DLA} | sed -e 's/<[^>]*>//g' -e '/^$/d' |\
+    local VER=$(echo $(curl -s ${DLA} | sed -e 's/<[^>]*>//g' -e '/^$/d' |\
       grep -v 'Index\|Name\|project\|ls\|Apache\|live\|current' | tail -n +4 |\
-      cut -d"/" -f1)`
+      cut -d"/" -f1))
     local DLP="${VER}/${ARCH}/iso-cd/"
     local IMAGE="debian-${VER}-${ARCH}-netinst.iso"
     [[ -n $(grep "exists" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
@@ -28,3 +28,5 @@ echo "menuentry \"Debian netinst ${ARCH} ${VER}\" {
     shift 1
   done
 }
+
+## tested - confirmed working

@@ -1,17 +1,20 @@
 OS_INSTALL="1"
 OS_NAME="centos"
 x86="x86_64"
-i386="i386"
+i386=""
 
 function install_centos()
 {
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
-    local DLA="http://mirror.es.its.nyu.edu/centos/"
-    local VER=`echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^[0-9]' |\
-      cut -d/ -f1 | sort -n | tail -n 1)`
+    local DLA="http://mirrors.mit.edu/centos/"
+    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^[0-9]' |\
+      cut -d/ -f1 | sort -n | tail -n 1))
     local DLP="${VER}/isos/${ARCH}/"
-    local IMAGE="CentOS-$(echo ${VER} | sed 's/\./-/2')-${ARCH}-Minimal.iso"
+    # local IMAGE="CentOS-$(echo ${VER} | sed 's/\./-/2')-${ARCH}-Minimal.iso"
+    local IMAGE="CentOS-$(echo ${VER} |\
+      cut -d. -f1)-${ARCH}-Minimal-$(echo ${VER} | rev | cut -d'.' -f1 |\
+      rev).iso"
     [[ -n $(grep "exists" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
       { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
       { shift 1 ; continue ; }
@@ -19,7 +22,7 @@ function install_centos()
 echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {
     insmod loopback
     set isofile=\"/iso/${IMAGE}\"
-    set isolabel=CentOS-7.0-1406-x86_64-Minimal
+    set isolabel=CentOS-${VER}-x86_64-Minimal
     set bo1=\"iso-scan/filename=\$isofile\"
     set bo2=\"root=live:LABEL=/dev/loop0 ro rd.live.image rhgb\"
     loopback loop (hd0,1)\$isofile
@@ -39,3 +42,5 @@ echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {
 #    linux (loop)/isolinux/vmlinuz \$bo1 \$bo2
 #    initrd (loop)/isolinux/initrd.img
 #}
+
+## notes - downloads, installs, fails at dracut
