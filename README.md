@@ -7,13 +7,12 @@ or larger.
 
 As of writing, these are the OS'es that are being installed:
 - debian netinstall (amd64 & i386)
-- fedora live (x86-64 & i386)
 - gentoo current minimal (amd64 & x86)
 - grml
 - kali live (amd64)
 - netbsd (amd64 & i386)
 - openbsd (amd64 & i386)
-- tails live (i386)
+- tails live & masquerade (i386)
 - ubuntu server (amd64 & i386)
 - ubuntu desktop (amd64 & i386)
 
