@@ -1,16 +1,20 @@
-OS_INSTALL="1"
-OS_NAME="netbsd"
-x86="amd64"
-i386="i386"
+readonly OS_INSTALL="1"
+readonly OS_NAME="netbsd"
+readonly x86="amd64"
+readonly i386="i386"
 
 function install_netbsd()
 {
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="mirror.planetunix.net/pub/NetBSD/"
-    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' |\
-      grep NetBSD | grep -v 'release\|current\|archive\|Index' |\
-      cut -d/ -f1 | cut -d- -f2 | tail -n 1))
+    local VER=$(echo $(curl -s ${DLA} \
+        | sed 's/<[^>]*>//g' 
+        | grep NetBSD \
+        | grep -v 'release\|current\|archive\|Index'
+        | cut -d/ -f1 \
+        | cut -d- -f2 \
+        | tail -n 1))
     local DLP="NetBSD-${VER}/${ARCH}/"
     local KNL_DL="binary/kernel/netbsd-INSTALL.gz"
     local KNL="netbsd-INSTALL.gz"
@@ -24,8 +28,10 @@ echo "menuentry \"NetBSD ${VER} ${ARCH}\" {
   knetbsd /iso/netbsd/${VER}/${ARCH}/${KNL}
 }
 " >> ${GRUBCONF}
-    wget ${DLA}${DLP}${ST} ${WGET_OPT} ${WGET_PATH} || echo "NetBSD dloaded"
-    wget ${DLA}${DLP}${KNL_DL} ${WGET_PATH} || echo "NetBSD kernel dloaded"
+    wget ${DLA}${DLP}${ST} ${WGET_OPT} ${WGET_PATH} \
+        || echo "NetBSD downloaded"
+    wget ${DLA}${DLP}${KNL_DL} ${WGET_PATH} \
+        || echo "NetBSD kernel downloaded"
     shift 1
   done
 }
