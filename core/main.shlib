@@ -4,14 +4,19 @@ LANG=C
 set -o pipefail
 set -o nounset
 set -o errexit
-NAME=$(basename $0)
+readonly NAME=$(basename $0)
 
 # text format && color for messages
-ORN=$(tput setaf 3); RED=$(tput setaf 1); BLU=$(tput setaf 4)
-GRN=$(tput setaf 40); CLR=$(tput sgr0)
-FMT="%s%-44s%s"
-MNHDR="${BLU}[*]${CLR} "; BDHDR="${RED}[*]${CLR}"; COLHDR="${GRN}[*]${CLR} "
 # printf "${FMT}" "${MNHDR}" "message" ": "
+readonly ORN=$(tput setaf 3)
+readonly RED=$(tput setaf 1)
+readonly BLU=$(tput setaf 4)
+readonly GRN=$(tput setaf 40)
+readonly CLR=$(tput sgr0)
+readonly FMT="%s%-44s%s"
+readonly MNHDR="${BLU}[*]${CLR} "
+readonly BDHDR="${RED}[*]${CLR}"
+readonly COLHDR="${GRN}[*]${CLR} "
 
 function version()
 {
