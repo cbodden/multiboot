@@ -8,9 +8,9 @@ function install_kali()
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="http://cdimage.kali.org/current/"
-    local VER=$(echo $(curl -s http://cdimage.kali.org
+    local VER=$(echo $(curl -s http://cdimage.kali.org \
         | sed -e 's/<[^>]*>//g' -e 's/.iso[^@]*$//' \
-        | grep kali
+        | grep kali \
         | grep -v 'latest\|Apache' \
         | tail -n 1 \
         | cut -d/ -f1 \
