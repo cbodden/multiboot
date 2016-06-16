@@ -4,7 +4,7 @@ LANG=C
 set -o pipefail
 set -o nounset
 set -o errexit
-readonly NAME=$(basename $0)
+NAME=$(basename $0)
 
 # text format && color for messages
 # printf "${FMT}" "${MNHDR}" "message" ": "
