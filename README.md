@@ -24,7 +24,7 @@ Requirements
 -  cURL        (http://curl.haxx.se)
 -  Grub2       (https://www.gnu.org/software/grub/)
 -  Dosfstools  (http://daniel-baumann.ch/software/dosfstools/)
--  Parted      (www.gnu.org/software/parted)
+-  Parted      (http://www.gnu.org/software/parted)
 
 Installation / Usage
 ----
