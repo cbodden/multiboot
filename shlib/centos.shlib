@@ -1,23 +1,29 @@
-OS_INSTALL="1"
-OS_NAME="centos"
-x86="x86_64"
-i386=""
+readonly OS_INSTALL="1"
+readonly OS_NAME="centos"
+readonly x86="x86_64"
+readonly i386=""
 
 function install_centos()
 {
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="http://mirrors.mit.edu/centos/"
-    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^[0-9]' |\
-      cut -d/ -f1 | sort -n | tail -n 1))
+    local VER=$(echo $(curl -s ${DLA} \
+        | sed 's/<[^>]*>//g' \
+        | grep '^[0-9]' \
+        | cut -d/ -f1 \
+        | sort -n \
+        | tail -n 1))
     local DLP="${VER}/isos/${ARCH}/"
     # local IMAGE="CentOS-$(echo ${VER} | sed 's/\./-/2')-${ARCH}-Minimal.iso"
-    local IMAGE="CentOS-$(echo ${VER} |\
-      cut -d. -f1)-${ARCH}-Minimal-$(echo ${VER} | rev | cut -d'.' -f1 |\
-      rev).iso"
-    [[ -n $(grep "exists" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
-      { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; continue ; }
+    local IMAGE="CentOS-$(echo ${VER}
+        | cut -d. -f1)-${ARCH}-Minimal-$(echo ${VER} \
+        | rev \
+        | cut -d'.' -f1 \
+        | rev).iso"
+    [[ -n $(grep "exists" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
+        && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+        || { shift 1 ; continue ; }
 
 echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {
     insmod loopback
