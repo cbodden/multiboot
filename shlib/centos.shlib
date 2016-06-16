@@ -16,7 +16,7 @@ function install_centos()
         | tail -n 1))
     local DLP="${VER}/isos/${ARCH}/"
     # local IMAGE="CentOS-$(echo ${VER} | sed 's/\./-/2')-${ARCH}-Minimal.iso"
-    local IMAGE="CentOS-$(echo ${VER}
+    local IMAGE="CentOS-$(echo ${VER} \
         | cut -d. -f1)-${ARCH}-Minimal-$(echo ${VER} \
         | rev \
         | cut -d'.' -f1 \
