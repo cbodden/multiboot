@@ -9,7 +9,7 @@ function install_fedora()
     local ARCH=$1
     local DLA="mirror.pnl.gov/fedora/linux/releases/"
     local VER=$(echo $(curl -s ${DLA} \
-        | sed 's/<[^>]*>//g' 
+        | sed 's/<[^>]*>//g' \
         | grep -v '^$\|Index\|test\|SYNC_STAMP\|Apache' \
         | cut -d/ -f1 \
         | tail -n 1))
