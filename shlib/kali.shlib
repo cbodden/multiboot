@@ -1,21 +1,25 @@
-OS_INSTALL="1"
-OS_NAME="kali"
-x86="amd64"
-i386=""
+readonly OS_INSTALL="1"
+readonly OS_NAME="kali"
+readonly x86="amd64"
+readonly i386=""
 
 function install_kali()
 {
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="http://cdimage.kali.org/current/"
-    local VER=$(echo $(curl -s http://cdimage.kali.org |\
-      sed -e 's/<[^>]*>//g' -e 's/.iso[^@]*$//' | grep kali |\
-      grep -v 'latest\|Apache' | tail -n 1 | cut -d/ -f1 | cut -d- -f2))
+    local VER=$(echo $(curl -s http://cdimage.kali.org
+        | sed -e 's/<[^>]*>//g' -e 's/.iso[^@]*$//' \
+        | grep kali
+        | grep -v 'latest\|Apache' \
+        | tail -n 1 \
+        | cut -d/ -f1 \
+        | cut -d- -f2))
     local DLP="${1}/"
     local IMAGE="kali-linux-${VER}-${ARCH}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${IMAGE} 2>&1)) ]] &&
-      { wget ${DLA}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; continue ; }
+    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${IMAGE} 2>&1)) ]] \
+        && { wget ${DLA}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+        || { shift 1 ; continue ; }
 
 echo "menuentry \"Kali Linux ${VER} ${ARCH}\" {
   set isofile=\"/iso/${IMAGE}\"
