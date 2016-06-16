@@ -1,7 +1,7 @@
-OS_INSTALL="1"
-OS_NAME="ubuntu_desktop"
-x86="amd64"
-i386="i386"
+readonly OS_INSTALL="1"
+readonly OS_NAME="ubuntu_desktop"
+readonly x86="amd64"
+readonly i386="i386"
 
 function install_ubuntu_desktop()
 {

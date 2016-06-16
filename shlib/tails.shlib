@@ -1,7 +1,7 @@
-OS_INSTALL="1"
-OS_NAME="tails"
-x86=""
-i386="i386"
+readonly OS_INSTALL="1"
+readonly OS_NAME="tails"
+readonly x86=""
+readonly i386="i386"
 
 function install_tails()
 {

@@ -1,7 +1,7 @@
-OS_INSTALL="1"
-OS_NAME="gentoo"
-x86="amd64"
-i386="x86"
+readonly OS_INSTALL="1"
+readonly OS_NAME="gentoo"
+readonly x86="amd64"
+readonly i386="x86"
 
 function install_gentoo()
 {
