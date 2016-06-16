@@ -1,21 +1,27 @@
-OS_INSTALL="1"
-OS_NAME="ubuntu_desktop"
-x86="amd64"
-i386="i386"
+readonly OS_INSTALL="1"
+readonly OS_NAME="ubuntu_desktop"
+readonly x86="amd64"
+readonly i386="i386"
 
 function install_ubuntu_desktop()
 {
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="http://releases.ubuntu.com/"
-    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep '^ [0-9]' |\
-      cut -d/ -f1 | sort -n | tail -n 1))
-    [[ "$1" == i386 ]] && EFI="" || EFI=".efi"
+    local VER=$(echo $(curl -s ${DLA} \
+        | sed 's/<[^>]*>//g' \
+        | grep '^ [0-9]' \
+        | cut -d/ -f1 \
+        | sort -n \
+        | tail -n 1))
+    [[ "$1" == i386 ]] \
+        && EFI="" \
+        || EFI=".efi"
     local DLP="${VER}/"
     local IMAGE="ubuntu-${VER}-desktop-${ARCH}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] &&
-      { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; continue ; }
+    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
+        && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+        || { shift 1 ; continue ; }
 
 echo "menuentry \"Ubuntu ${ARCH} desktop ${VER}\" {
   set isofile=\"/iso/${IMAGE}\"
