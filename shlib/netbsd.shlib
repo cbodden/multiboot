@@ -9,7 +9,7 @@ function install_netbsd()
     local ARCH=$1
     local DLA="mirror.planetunix.net/pub/NetBSD/"
     local VER=$(echo $(curl -s ${DLA} \
-        | sed 's/<[^>]*>//g' 
+        | sed 's/<[^>]*>//g' \
         | grep NetBSD \
         | grep -v 'release\|current\|archive\|Index'
         | cut -d/ -f1 \
