@@ -11,7 +11,7 @@ function selection()
         printf "Install ${OS_NAME} ? [yn] :" ; read CHECK
         if [ "$(echo "$CHECK" | tr "[a-z]" "[A-Z]")" == "Y" ]; then
           os_inst[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
-          CNT=$(expr $CNT + 1)
+          local CNT=$(expr $CNT + 1)
         fi
       done
     ;;
@@ -23,7 +23,7 @@ function selection()
         if [ "${OS_INSTALL}" -eq 1 ]; then
           os_inst[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
         fi
-        CNT=$(expr $CNT + 1)
+        local CNT=$(expr $CNT + 1)
       done
     ;;
   esac
