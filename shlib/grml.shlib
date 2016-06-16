@@ -1,7 +1,7 @@
-readonly OS_INSTALL="1"
-readonly OS_NAME="grml"
-readonly x86="96"
-readonly i386=""
+OS_INSTALL="1"
+OS_NAME="grml"
+x86="96"
+i386=""
 
 function install_grml()
 {

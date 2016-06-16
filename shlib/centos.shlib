@@ -1,7 +1,7 @@
-readonly OS_INSTALL="1"
-readonly OS_NAME="centos"
-readonly x86="x86_64"
-readonly i386=""
+OS_INSTALL="1"
+OS_NAME="centos"
+x86="x86_64"
+i386=""
 
 function install_centos()
 {
