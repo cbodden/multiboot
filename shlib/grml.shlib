@@ -10,9 +10,9 @@ function install_grml()
     local DLA="http://mirror.us.leaseweb.net/grml/"
     local VER=$(echo $(curl -s ${DLA} \
         | sed 's/<[^>]*>//g' \
-        | grep grml96-full 
+        | grep grml96-full \
         | grep -v 'torrent\|md5\|sha1\|netboot' \
-        | sed 's/.iso[^@]*$//' 
+        | sed 's/.iso[^@]*$//' \
         | tail -n 1 \
         | cut -d_ -f2))
     local IMAGE="grml${ARCH}-full_${VER}.iso"
