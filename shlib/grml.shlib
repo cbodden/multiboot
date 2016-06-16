@@ -1,20 +1,24 @@
-OS_INSTALL="1"
-OS_NAME="grml"
-x86="96"
-i386=""
+readonly OS_INSTALL="1"
+readonly OS_NAME="grml"
+readonly x86="96"
+readonly i386=""
 
 function install_grml()
 {
   while [[ $# -gt 0 ]]; do
     local ARCH=$1
     local DLA="http://mirror.us.leaseweb.net/grml/"
-    local VER=$(echo $(curl -s ${DLA} | sed 's/<[^>]*>//g' | grep grml96-full |\
-      grep -v 'torrent\|md5\|sha1\|netboot' | sed 's/.iso[^@]*$//' |\
-      tail -n 1 | cut -d_ -f2))
+    local VER=$(echo $(curl -s ${DLA} \
+        | sed 's/<[^>]*>//g' \
+        | grep grml96-full 
+        | grep -v 'torrent\|md5\|sha1\|netboot' \
+        | sed 's/.iso[^@]*$//' 
+        | tail -n 1 \
+        | cut -d_ -f2))
     local IMAGE="grml${ARCH}-full_${VER}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${IMAGE} 2>&1)) ]] &&
-      { wget ${DLA}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } ||
-      { shift 1 ; continue ; }
+    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${IMAGE} 2>&1)) ]] \
+        && { wget ${DLA}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+        || { shift 1 ; continue ; }
 
 echo "menuentry \"GRML Linux ${ARCH} ${VER} - x86_64 & i386 full\" {
   set isofile=\"/iso/${IMAGE}\"
