@@ -21,29 +21,38 @@
 source core/selection.shlib
 source core/main.shlib
 
-if [ $# -ge 1 ]; then
-  case "$1" in
-    'debug'|'-d')
-      selection
-      grub_disk_debug
-      grub_header
-      for CMD in "${OS_INST[@]}"; do $(echo ${CMD}) ; done
-      cleanup_debug
-    ;;
+if [ $# -ge 1 ];
+then
+    case "$1" in
+        'debug'|'-d')
+            main
+            selection
+            grub_disk_debug
+            grub_header
+            for CMD in "${OS_INST[@]}"
+            do
+                $(echo ${CMD})
+            done
+            cleanup_debug
+        ;;
 
-    'install'|'-i')
-      selection
-      disk_detect
-      disk_action
-      grub_disk
-      grub_header
-      for CMD in "${OS_INST[@]}"; do $(echo ${CMD}) ; done
-      cleanup
-    ;;
-  esac
+        'install'|'-i')
+            main
+            selection
+            disk_detect
+            disk_action
+            grub_disk
+            grub_header
+            for CMD in "${OS_INST[@]}"
+            do
+                $(echo ${CMD})
+            done
+            cleanup
+        ;;
+    esac
 else
-  version
-  description
-  usage
-  exit 1
+    version
+    description
+    usage
+    exit 1
 fi
