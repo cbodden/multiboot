@@ -6,6 +6,8 @@ set -o nounset
 set -o errexit
 NAME=$(basename $0)
 
+
+## begin functions from here down##
 function cleanup()
 {
     sync
@@ -28,6 +30,33 @@ eg2Lo6RsPMATemVyBmHS3O3QpeTUCWMUshlDsB7P4HOFfx5ZPCzCNfqsytEhIebXuu6arMZl4dhe
 jzUoDjizl9xsKg6ORdnW0zEpxiyCEM1JpMY75fK0TCIXSfq53LH12JJGUDFhMsf+1KL0CunE2lQf
 DyfycAYBAAA="
 echo "${DESC}" | base64 -d | gunzip
+}
+
+function disk_action()
+{
+    dd if=/dev/zero of=${USBSTICK} bs=1M count=1
+    parted -s ${USBSTICK} -- mklabel msdos \
+        mkpart primary 0% 100%
+    mkfs.vfat ${USBSTICK}1 -n multiboot
+}
+
+function disk_detect()
+{
+    typeset -r MAINPROMPT="Select a USB disk to use: "
+    declare -a ARR=($(for DRIVE in $(lsblk -d -n -o NAME,TRAN \
+        | awk '/usb/{ print "/dev/"$1 }'); do echo $DRIVE ; done))
+    PS3=$MAINPROMPT
+    clear
+    select DRV in "${ARR[@]}"
+    do
+        case "${DRV}" in
+        ${DRV}) [[ -n $(df | grep "${DRV}") ]] \
+            && { echo -e "${DRV} is used by:\n$(df | grep "${DRV}")"; exit 1; } \
+            || { readonly USBSTICK="${DRV}"; } ;;
+        esac
+        readonly DRV_CLEAN=$(echo "${USBSTICK}" | cut -d"/" -f3)
+        break
+    done
 }
 
 function grub_disk()
@@ -62,33 +91,6 @@ function logd()
   local LOGFILE=/tmp/$0
   printf "%-20s %-10s %-10s %-10s %-10s\n" `date "+%Y%m%d_%H%M"` \
     "[${1}]" "${2}" "${3}" "${4}" >> ${LOGFILE}
-}
-
-function disk_detect()
-{
-    typeset -r MAINPROMPT="Select a USB disk to use: "
-    declare -a ARR=($(for DRIVE in $(lsblk -d -n -o NAME,TRAN \
-        | awk '/usb/{ print "/dev/"$1 }'); do echo $DRIVE ; done))
-    PS3=$MAINPROMPT
-    clear
-    select DRV in "${ARR[@]}"
-    do
-        case "${DRV}" in
-        ${DRV}) [[ -n $(df | grep "${DRV}") ]] \
-            && { echo -e "${DRV} is used by:\n$(df | grep "${DRV}")"; exit 1; } \
-            || { readonly USBSTICK="${DRV}"; } ;;
-        esac
-        readonly DRV_CLEAN=$(echo "${USBSTICK}" | cut -d"/" -f3)
-        break
-    done
-}
-
-function disk_action()
-{
-    dd if=/dev/zero of=${USBSTICK} bs=1M count=1
-    parted -s ${USBSTICK} -- mklabel msdos \
-        mkpart primary 0% 100%
-    mkfs.vfat ${USBSTICK}1 -n multiboot
 }
 
 function main()
