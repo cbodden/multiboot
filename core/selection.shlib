@@ -25,9 +25,7 @@ function selection()
         for _OSN_OUT in "${_OSN_SEL[@]}"; do
             printf "%s\n" "${OSN[$_OSN_OUT]}"
         done
-        #printf "\n\n"
         pause "Press [enter] to continue. "
-        #printf "\n\n"
 
         ## installing the os('s)
         local _INST_CNT=0
