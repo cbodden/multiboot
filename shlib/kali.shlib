@@ -5,21 +5,21 @@ i386=""
 
 function install_kali()
 {
-  while [[ $# -gt 0 ]]; do
-    local ARCH=$1
-    local DLA="http://cdimage.kali.org/current/"
-    local VER=$(echo $(curl -s http://cdimage.kali.org \
-        | sed -e 's/<[^>]*>//g' -e 's/.iso[^@]*$//' \
-        | grep kali \
-        | grep -v 'latest\|Apache' \
-        | tail -n 1 \
-        | cut -d/ -f1 \
-        | cut -d- -f2))
-    local DLP="${1}/"
-    local IMAGE="kali-linux-${VER}-${ARCH}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${IMAGE} 2>&1)) ]] \
-        && { wget ${DLA}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
-        || { shift 1 ; continue ; }
+    while [[ $# -gt 0 ]]; do
+        local ARCH=$1
+        local DLA="http://cdimage.kali.org/current/"
+        local VER=$(echo $(curl -s http://cdimage.kali.org \
+            | sed -e 's/<[^>]*>//g' -e 's/.iso[^@]*$//' \
+            | grep kali \
+            | grep -v 'latest\|Apache' \
+            | tail -n 1 \
+            | cut -d/ -f1 \
+            | cut -d- -f2))
+        local DLP="${1}/"
+        local IMAGE="kali-linux-${VER}-${ARCH}.iso"
+        [[ -n $(grep "200 OK" <(wget --spider ${DLA}${IMAGE} 2>&1)) ]] \
+            && { wget ${DLA}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+            || { shift 1 ; continue ; }
 
 echo "menuentry \"Kali Linux ${VER} ${ARCH}\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -31,8 +31,8 @@ echo "menuentry \"Kali Linux ${VER} ${ARCH}\" {
   initrd (loop)/live/initrd.img
 }
 " >> ${GRUBCONF}
-    shift 1
-  done
+        shift 1
+    done
 }
 
 ## confirmed working

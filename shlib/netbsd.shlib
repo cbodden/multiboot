@@ -5,22 +5,22 @@ i386="i386"
 
 function install_netbsd()
 {
-  while [[ $# -gt 0 ]]; do
-    local ARCH=$1
-    local DLA="mirror.planetunix.net/pub/NetBSD/"
-    local VER=$(echo $(curl -s ${DLA} \
-        | sed 's/<[^>]*>//g' \
-        | grep NetBSD \
-        | grep -v 'release\|current\|archive\|Index'
-        | cut -d/ -f1 \
-        | cut -d- -f2 \
-        | tail -n 1))
-    local DLP="NetBSD-${VER}/${ARCH}/"
-    local KNL_DL="binary/kernel/netbsd-INSTALL.gz"
-    local KNL="netbsd-INSTALL.gz"
-    local ST="binary/sets/"
-    local WGET_OPT="-r -l 1 -nd -e robots=off -R '*.html*,*.gif'"
-    local WGET_PATH="--directory-prefix=${USBTMPDIR}/iso/netbsd/${VER}/${ARCH}/"
+    while [[ $# -gt 0 ]]; do
+        local ARCH=$1
+        local DLA="mirror.planetunix.net/pub/NetBSD/"
+        local VER=$(echo $(curl -s ${DLA} \
+            | sed 's/<[^>]*>//g' \
+            | grep NetBSD \
+            | grep -v 'release\|current\|archive\|Index'
+            | cut -d/ -f1 \
+            | cut -d- -f2 \
+            | tail -n 1))
+        local DLP="NetBSD-${VER}/${ARCH}/"
+        local KNL_DL="binary/kernel/netbsd-INSTALL.gz"
+        local KNL="netbsd-INSTALL.gz"
+        local ST="binary/sets/"
+        local WGET_OPT="-r -l 1 -nd -e robots=off -R '*.html*,*.gif'"
+        local WGET_PATH="--directory-prefix=${USBTMPDIR}/iso/netbsd/${VER}/${ARCH}/"
 
 echo "menuentry \"NetBSD ${VER} ${ARCH}\" {
   insmod ext2
@@ -28,12 +28,12 @@ echo "menuentry \"NetBSD ${VER} ${ARCH}\" {
   knetbsd /iso/netbsd/${VER}/${ARCH}/${KNL}
 }
 " >> ${GRUBCONF}
-    wget ${DLA}${DLP}${ST} ${WGET_OPT} ${WGET_PATH} \
-        || echo "NetBSD downloaded"
-    wget ${DLA}${DLP}${KNL_DL} ${WGET_PATH} \
-        || echo "NetBSD kernel downloaded"
-    shift 1
-  done
+        wget ${DLA}${DLP}${ST} ${WGET_OPT} ${WGET_PATH} \
+            || echo "NetBSD downloaded"
+        wget ${DLA}${DLP}${KNL_DL} ${WGET_PATH} \
+            || echo "NetBSD kernel downloaded"
+        shift 1
+    done
 }
 
 ## confirmed working

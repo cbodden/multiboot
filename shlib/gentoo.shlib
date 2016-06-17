@@ -5,20 +5,20 @@ i386="x86"
 
 function install_gentoo()
 {
-  while [[ $# -gt 0 ]]; do
-    local gentoo_version="current"
-    local version=${gentoo_version}
-    local VER=$1
-    local F_NAME="latest-install-${1}-minimal.txt"
-    local SERVER="http://distfiles.gentoo.org/releases"
-    local VER_L=$(curl -f -s ${SERVER}/${1}/autobuilds/${F_NAME} \
-        | tail -n 1 \
-        | cut -d"/" -f1 )
-    local DL_ADDY="${SERVER}/${1}/autobuilds/${VER_L}/"
-    local IMAGE="install-${1}-minimal-${VER_L}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] \
-        && { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
-        || { shift 1 ; continue ; }
+    while [[ $# -gt 0 ]]; do
+        local gentoo_version="current"
+        local version=${gentoo_version}
+        local VER=$1
+        local F_NAME="latest-install-${1}-minimal.txt"
+        local SERVER="http://distfiles.gentoo.org/releases"
+        local VER_L=$(curl -f -s ${SERVER}/${1}/autobuilds/${F_NAME} \
+            | tail -n 1 \
+            | cut -d"/" -f1 )
+        local DL_ADDY="${SERVER}/${1}/autobuilds/${VER_L}/"
+        local IMAGE="install-${1}-minimal-${VER_L}.iso"
+        [[ -n $(grep "200 OK" <(wget --spider ${DL_ADDY}${IMAGE} 2>&1)) ]] \
+            && { wget ${DL_ADDY}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+            || { shift 1 ; continue ; }
 
 echo "menuentry \"Gentoo minimal ${VER_L} ${1}\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -30,8 +30,8 @@ echo "menuentry \"Gentoo minimal ${VER_L} ${1}\" {
   initrd (loop)/isolinux/gentoo.igz
 }
 " >> ${GRUBCONF}
-    shift 1
-  done
+        shift 1
+    done
 }
 
 ## confirmed working

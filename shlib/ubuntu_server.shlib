@@ -5,28 +5,28 @@ i386="i386"
 
 function install_ubuntu_server()
 {
-  while [[ $# -gt 0 ]]; do
-    local ARCH=$1
-    local DLA="http://releases.ubuntu.com/"
-    local VER=$(echo $(curl -s ${DLA} \
-        | sed 's/<[^>]*>//g' \
-        | grep '^ [0-9]' \
-        | grep "LTS" \
-        | cut -d/ -f1 \
-        | sort -r \
-        | head -n 1))
-    local DLP="${VER}/"
-    if [[ "${ARCH}" != "12.04.4" ]]; then
-      [[ "${ARCH}" == i386 ]] \
-        && local EFI="" \
-        || local EFI=".efi"
-    else
-      local EFI=""
-    fi
-    local IMAGE="ubuntu-${VER}-server-${ARCH}.iso"
-    [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
-        && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
-        || { shift 1 ; continue ; }
+    while [[ $# -gt 0 ]]; do
+        local ARCH=$1
+        local DLA="http://releases.ubuntu.com/"
+        local VER=$(echo $(curl -s ${DLA} \
+            | sed 's/<[^>]*>//g' \
+            | grep '^ [0-9]' \
+            | grep "LTS" \
+            | cut -d/ -f1 \
+            | sort -r \
+            | head -n 1))
+        local DLP="${VER}/"
+        if [[ "${ARCH}" != "12.04.4" ]]; then
+            [[ "${ARCH}" == i386 ]] \
+                && local EFI="" \
+                || local EFI=".efi"
+        else
+            local EFI=""
+        fi
+        local IMAGE="ubuntu-${VER}-server-${ARCH}.iso"
+        [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
+            && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+            || { shift 1 ; continue ; }
 
 echo "menuentry \"Ubuntu ${ARCH} server ${VER}\" {
   set isofile=\"/iso/${IMAGE}\"
@@ -37,8 +37,8 @@ echo "menuentry \"Ubuntu ${ARCH} server ${VER}\" {
   initrd (loop)/install/initrd.gz
 }
 " >> ${GRUBCONF}
-    shift 1
-  done
+        shift 1
+    done
 }
 
 ## confirmed working
