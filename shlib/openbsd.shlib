@@ -1,7 +1,7 @@
 OS_INSTALL="0"
 OS_NAME="openbsd"
 x86="amd64"
-i386="i386"
+i386=""
 
 function install_openbsd()
 {
