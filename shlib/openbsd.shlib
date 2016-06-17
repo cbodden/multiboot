@@ -8,12 +8,12 @@ function install_openbsd()
     while [[ $# -gt 0 ]]; do
         local ARCH=$1
         local DLA="openbsd.mirrors.hoobly.com/"
-        local DLA_FULL="${DLA}${VER/./}/${ARCH}/${IMAGE}"
-        local IMAGE="install${VER/./}.iso"
         local VER=$(echo $(curl -s www.openbsd.org/ \
             | sed -e 's/<[^>]*>//g' \
             | awk '/current/ {print $6}' \
             | sed 's/,//g'))
+        local IMAGE="install${VER/./}.iso"
+        local DLA_FULL="${DLA}${VER}/${ARCH}/${IMAGE}"
         [[ -n $(grep "200 OK" <(wget --spider ${DLA_FULL} 2>&1)) ]] \
             && { wget ${DLA_FULL} --directory-prefix=${USBTMPDIR}/iso/ ; } \
             || { shift 1 ; continue ; }
