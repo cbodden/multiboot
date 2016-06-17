@@ -1,51 +1,51 @@
 function selection()
 {
-  CNT=0
-  printf "${FMT}" "${MNHDR}" "Select your OS ?" ": " ; read yn
-  case "${yn}" in
-    [Yy][Ee][Ss]|[Yy])
-        ## creating the os name array
-        declare -a OSN=($(grep "OS_NAME" shlib/* \
-            | cut -d'"' -f2))
-        for NAME in "${OSN[@]}"; do
-            source shlib/${NAME}.shlib
-        done
+    CNT=0
+    printf "${FMT}" "${MNHDR}" "Select your OS ?" ": " ; read yn
+    case "${yn}" in
+        [Yy][Ee][Ss]|[Yy])
+            ## creating the os name array
+            declare -a OSN=($(grep "OS_NAME" shlib/* \
+                | cut -d'"' -f2))
+            for NAME in "${OSN[@]}"; do
+                source shlib/${NAME}.shlib
+            done
 
-        ## showing the OS list
-        local _LIST_CNT=0
-        for _LIST in "${OSN[@]}"; do
-            printf "%s\n" "[${_LIST_CNT}] ${_LIST}"
-            _LIST_CNT=$((_LIST_CNT+1))
-        done
+            ## showing the OS list
+            local _LIST_CNT=0
+            for _LIST in "${OSN[@]}"; do
+                printf "%s\n" "[${_LIST_CNT}] ${_LIST}"
+                _LIST_CNT=$((_LIST_CNT+1))
+            done
 
-        ## choosing the os('s)
-        printf "%s\n" "Choose OS's to install separated by spaces : "
-        read -a _OSN_SEL
-        printf "%s\n" "You selected:"
-        for _OSN_OUT in "${_OSN_SEL[@]}"; do
-            printf "%s\n" "${OSN[$_OSN_OUT]}"
-        done
-        pause "Press [enter] to continue. "
+            ## choosing the os('s)
+            printf "%s\n" "Choose OS's to install separated by spaces : "
+            read -a _OSN_SEL
+            printf "%s\n" "You selected:"
+            for _OSN_OUT in "${_OSN_SEL[@]}"; do
+                printf "%s\n" "${OSN[$_OSN_OUT]}"
+            done
+            pause "Press [enter] to continue. "
 
-        ## installing the os('s)
-        local _INST_CNT=0
-        for _INSTALL in "${_OSN_SEL[@]}"; do
-            local _INST_N="${OSN[$_INSTALL]}"
-            OS_INST[${_INST_CNT}]="install_${_INST_N} ${x86} ${i386}"
-            _INST_CNT=$((_INST_CNT+1))
-        done
-    ;;
+            ## installing the os('s)
+            local _INST_CNT=0
+            for _INSTALL in "${_OSN_SEL[@]}"; do
+                local _INST_N="${OSN[$_INSTALL]}"
+                OS_INST[${_INST_CNT}]="install_${_INST_N} ${x86} ${i386}"
+                _INST_CNT=$((_INST_CNT+1))
+            done
+        ;;
 
-    [Nn][Oo]|[Nn]|*)
-      declare -a OSN=(`for _TP in $(grep "OS_NAME" -l \
-        --exclude={selection\*}.\* shlib/*); do echo ${_TP} ; done`)
-      for NAME in "${OSN[@]}"; do
-        source ${NAME}
-        if [ "${OS_INSTALL}" -eq 1 ]; then
-          OS_INST[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
-        fi
-        local CNT=$(expr $CNT + 1)
-      done
-    ;;
-  esac
+        [Nn][Oo]|[Nn]|*)
+            declare -a OSN=(`for _TP in $(grep "OS_NAME" -l \
+                --exclude={selection\*}.\* shlib/*); do echo ${_TP} ; done`)
+            for NAME in "${OSN[@]}"; do
+                source ${NAME}
+                    if [ "${OS_INSTALL}" -eq 1 ]; then
+                        OS_INST[${CNT}]="install_${OS_NAME} ${x86} ${i386}"
+                    fi
+                local CNT=$(expr $CNT + 1)
+            done
+        ;;
+    esac
 }
