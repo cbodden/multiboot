@@ -5,7 +5,8 @@ current linux distros, OpenBSD, and NetBSD.
 At present for full install, you will need a flash disk of at least 4GB
 or larger.
 
-As of writing, these are the OS'es that are being installed:
+These are the OS'es that are currently being supported:
+- alpine extended (amd64 & i386)
 - debian netinstall (amd64 & i386)
 - gentoo current minimal (amd64 & x86)
 - grml
