@@ -1,4 +1,4 @@
-OS_INSTALL="0"
+OS_INSTALL="1"
 OS_NAME="centos"
 x86="x86_64"
 i386=""
@@ -36,4 +36,4 @@ echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {
     done
 }
 
-## untested
+## confirmed working
