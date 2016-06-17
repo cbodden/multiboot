@@ -61,15 +61,15 @@ function disk_detect()
 
 function grub_disk()
 {
-mkdir ${USBTMPDIR}
-mount ${USBSTICK}1 ${USBTMPDIR}
-readonly UUID=$(ls -al /dev/disk/by-uuid/ \
-    | grep ${DRV_CLEAN}1 \
-    | awk '{print $9}')
-[[ -n $(which grub2-install 2>/dev/null) ]] \
-    && { grub2-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; } \
-    || { grub-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; }
-mkdir ${USBTMPDIR}/iso/
+    mkdir ${USBTMPDIR}
+    mount ${USBSTICK}1 ${USBTMPDIR}
+    readonly UUID=$(ls -al /dev/disk/by-uuid/ \
+        | grep ${DRV_CLEAN}1 \
+        | awk '{print $9}')
+    [[ -n $(which grub2-install 2>/dev/null) ]] \
+        && { grub2-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; } \
+        || { grub-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; }
+    mkdir ${USBTMPDIR}/iso/
 }
 
 function grub_disk_debug()
