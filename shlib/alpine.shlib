@@ -21,8 +21,11 @@ function install_alpine()
 echo "menuentry \"alpine extended ${ARCH} ${VER} \" {
     set isofile=\"/iso/${IMAGE}\"
     loopback loop ${isofile}
-    linux (loop)/isolinux/vmlinuz noeject inst.stage2=hd:/dev/sdb2:/${isofile}
-    initrd (loop)/isolinux/initrd.img
+    set root=loop
+    set bo1="modloop=/boot/modloop-grsec"
+    set bo2="modules=loop,squashfs,sd-mod,usb-storage quiet"
+    linux /boot/vmlinuz-grsec ${bo1} ${bo2}
+    initrd /boot/initramfs-grsec
 }
 " >> ${GRUBCONF}
         shift 1
