@@ -15,7 +15,7 @@
 #        AUTHOR: cesar@pissedoffadmins.com
 #  ORGANIZATION: pissedoffadmins.com
 #       CREATED: 15 April 2014
-#      REVISION: 30
+#      REVISION: 40
 #===============================================================================
 
 source core/selection.shlib
