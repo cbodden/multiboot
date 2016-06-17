@@ -1,7 +1,7 @@
 function selection()
 {
     CNT=0
-    printf "%s" "${MNHDR}" "Select your OS('s) ? : "
+    printf "%s" "${MNHDR}" "Interactive OS installation [yn] ? : "
     read yn
     case "${yn}" in
         [Yy][Ee][Ss]|[Yy])
@@ -11,6 +11,10 @@ function selection()
             for NAME in "${OSN[@]}"; do
                 source shlib/${NAME}.shlib
             done
+
+            printf "%s\n" "" "Now listing operating systems." \
+                "Broken OS are listed in ${ORN}orange${CLR}" \
+                "Working OS are listed in ${GRN}green${CLR}" ""
 
             ## showing the OS list
             local _LIST_CNT=0
@@ -25,7 +29,8 @@ function selection()
             done
 
             ## choosing the os('s)
-            printf "%s\n" "${CLR}Choose OS's to install separated by spaces : "
+            printf "%s\n" "" \
+                "${CLR}Choose OS's to install separated by spaces : "
             read -a _OSN_SEL
             printf "%s\n" "You selected:"
             for _OSN_OUT in "${_OSN_SEL[@]}"; do
