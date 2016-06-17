@@ -21,14 +21,13 @@ function cleanup_debug()
 
 function description()
 {
-  cat <<EOL
-
-    This script is used to create a grub2 bootable flash disc with multiple,
-                  current linux distros, OpenBSD, and NetBSD.
-           At present for full install, you will need a flash disk of
-                            at least 4GB or larger.
-
-EOL
+# created with cat file | gzip | base64
+DESC="
+H4sIAMR0Y1cAA1WOQQrCQAxF9z3FP0DpQryARXCnC71A2qbtYJwpSQb19k5B0L7VJyQ/D/hym4PB
+eg2Lo6RsPMATemVyBmHS3O3QpeTUCWMUshlDsB7P4HOFfx5ZPCzCNfqsytEhIebXuu6arMZl4dhe
+jzUoDjizl9xsKg6ORdnW0zEpxiyCEM1JpMY75fK0TCIXSfq53LH12JJGUDFhMsf+1KL0CunE2lQf
+DyfycAYBAAA="
+echo "${DESC}" | base64 -d | gunzip
 }
 
 function grub_disk()
