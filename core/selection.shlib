@@ -15,7 +15,12 @@ function selection()
             ## showing the OS list
             local _LIST_CNT=0
             for _LIST in "${OSN[@]}"; do
-                printf "%s\n" "${BLU}[${_LIST_CNT}] ${GRN}${_LIST}"
+                if [ "$(grep OS_INSTALL shlib/${_LIST}.shlib \
+                    | cut -d'"' -f2)" -eq 1 ]; then
+                    printf "%s\n" "${BLU}[${_LIST_CNT}] ${GRN}${_LIST}"
+                else
+                    printf "%s\n" "${BLU}[${_LIST_CNT}] ${ORN}${_LIST}"
+                fi
                 _LIST_CNT=$((_LIST_CNT+1))
             done
 
