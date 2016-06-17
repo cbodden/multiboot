@@ -27,7 +27,7 @@ if [ $# -ge 1 ]; then
       selection
       grub_disk_debug
       grub_header
-      for CMD in "${os_inst[@]}"; do $(echo ${CMD}) ; done
+      for CMD in "${OS_INST[@]}"; do $(echo ${CMD}) ; done
       cleanup_debug
     ;;
 
@@ -37,7 +37,7 @@ if [ $# -ge 1 ]; then
       disk_action
       grub_disk
       grub_header
-      for CMD in "${os_inst[@]}"; do $(echo ${CMD}) ; done
+      for CMD in "${OS_INST[@]}"; do $(echo ${CMD}) ; done
       cleanup
     ;;
   esac

@@ -147,3 +147,8 @@ set menu_color_normal=white/black
 set menu_color_highlight=white/green
 " >> ${GRUBCONF}
 }
+
+function pause()
+{
+    read -p "$*"
+}
