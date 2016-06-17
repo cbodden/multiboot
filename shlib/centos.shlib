@@ -1,4 +1,4 @@
-OS_INSTALL="0"
+OS_INSTALL="1"
 OS_NAME="centos"
 x86="x86_64"
 i386=""
@@ -27,13 +27,15 @@ function install_centos()
 
 echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {
     set isofile=\"/iso/${IMAGE}\"
-    loopback loop ${isofile}
-    linux (loop)/isolinux/vmlinuz noeject inst.stage2=hd:/dev/sdb2:/${isofile}
-    initrd (loop)/isolinux/initrd.img
+    loopback loop \${isofile}
+    set bo1="root=live=CDLABEL=CentOS-live-\${ARCH}"
+    set bo2="iso-scan/filename=\${isofile} rd.live.image"
+    linux (loop)/isolinux/vmlinuz0 \${bo1} \${bo2}
+    initrd (loop)/isolinux/initrd0.img
 }
 " >> ${GRUBCONF}
         shift 1
     done
 }
 
-## unconfirmed working
+## confirmed working
