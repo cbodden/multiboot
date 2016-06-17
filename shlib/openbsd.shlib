@@ -20,7 +20,7 @@ function install_openbsd()
 
 echo "menuentry \"OpenBSD ${ARCH} ${VER}\" {
   insmod ext2
-  set root=(hd0,msdos1)
+  set root=(hd0,1)
   kopenbsd /iso/${IMAGE}
 }
 " >> ${GRUBCONF}
