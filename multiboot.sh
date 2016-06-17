@@ -25,6 +25,7 @@ if [ $# -ge 1 ];
 then
     case "$1" in
         'debug'|'-d')
+            clear
             main
             selection
             grub_disk_debug
@@ -37,6 +38,7 @@ then
         ;;
 
         'install'|'-i')
+            clear
             main
             selection
             disk_detect
