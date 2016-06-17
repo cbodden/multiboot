@@ -1,7 +1,7 @@
 function selection()
 {
   CNT=0
-  printf "${FMT}" "${MNHDR}" "Interactive Install ?" ": " ; read yn
+  printf "${FMT}" "${MNHDR}" "Select your OS ?" ": " ; read yn
   case "${yn}" in
     [Yy][Ee][Ss]|[Yy])
         ## creating the os name array
@@ -25,9 +25,9 @@ function selection()
         for _OSN_OUT in "${_OSN_SEL[@]}"; do
             printf "%s\n" "${OSN[$_OSN_OUT]}"
         done
-        printf "\n\n"
+        #printf "\n\n"
         pause "Press [enter] to continue. "
-        printf "\n\n"
+        #printf "\n\n"
 
         ## installing the os('s)
         local _INST_CNT=0
