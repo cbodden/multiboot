@@ -51,7 +51,8 @@ function disk_detect()
     do
         case "${DRV}" in
         ${DRV}) [[ -n $(df | grep "${DRV}") ]] \
-            && { echo -e "${DRV} is used by:\n$(df | grep "${DRV}")"; exit 1; } \
+            && { echo -e "${DRV} is used by:\n$(df | grep "${DRV}")" \
+            exit 1; } \
             || { readonly USBSTICK="${DRV}"; } ;;
         esac
         readonly DRV_CLEAN=$(echo "${USBSTICK}" | cut -d"/" -f3)
@@ -67,8 +68,12 @@ function grub_disk()
         | grep ${DRV_CLEAN}1 \
         | awk '{print $9}')
     [[ -n $(which grub2-install 2>/dev/null) ]] \
-        && { grub2-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; } \
-        || { grub-install --no-floppy --root-directory=${USBTMPDIR} ${USBSTICK}; }
+        && { grub2-install \
+            --no-floppy \
+            --root-directory=${USBTMPDIR} ${USBSTICK}; } \
+        || { grub-install \
+            --no-floppy \
+            --root-directory=${USBTMPDIR} ${USBSTICK}; }
     mkdir ${USBTMPDIR}/iso/
 }
 
