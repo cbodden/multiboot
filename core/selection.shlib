@@ -47,7 +47,11 @@ function selection()
             local _INST_CNT=0
             for _INSTALL in "${_OSN_SEL[@]}"; do
                 local _INST_N="${OSN[$_INSTALL]}"
-                OS_INST[${_INST_CNT}]="install_${_INST_N} ${x86} ${i386}"
+                local _VER32=$(grep "386" shlib/${_INST_N}.shlib \
+                    | cut -d'"' -f2)
+                local _VER64=$(grep "x86=" shlib/${_INST_N}.shlib \
+                    | cut -d'"' -f2)
+                OS_INST[${_INST_CNT}]="install_${_INST_N} ${_VER64} ${_VER32}"
                 _INST_CNT=$((_INST_CNT+1))
             done
         ;;
