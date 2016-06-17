@@ -1,4 +1,4 @@
-OS_INSTALL="0"
+OS_INSTALL="1"
 OS_NAME="alpine"
 x86="x86_64"
 i386="x86"
@@ -20,11 +20,11 @@ function install_alpine()
 
 echo "menuentry \"alpine extended ${ARCH} ${VER} \" {
     set isofile=\"/iso/${IMAGE}\"
-    loopback loop ${isofile}
+    loopback loop \$isofile
     set root=loop
     set bo1="modloop=/boot/modloop-grsec"
     set bo2="modules=loop,squashfs,sd-mod,usb-storage quiet"
-    linux /boot/vmlinuz-grsec ${bo1} ${bo2}
+    linux /boot/vmlinuz-grsec \$bo1 \$bo2
     initrd /boot/initramfs-grsec
 }
 " >> ${GRUBCONF}
@@ -32,4 +32,4 @@ echo "menuentry \"alpine extended ${ARCH} ${VER} \" {
     done
 }
 
-## unconfirmed working
+## mostly working - boots with initramfs issues
