@@ -37,7 +37,7 @@ function selection()
                 if [ "${_OSN_OUT}" -le "${#OSN[@]}" ]; then
                     printf "%s\n" "${OSN[$_OSN_OUT]}"
                 else
-                    printf "%s\n" "${RED}An invalid choice"
+                    printf "%s\n" "${RED}An invalid choice" ""
                     exit 1
                 fi
             done
