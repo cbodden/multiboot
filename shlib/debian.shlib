@@ -16,7 +16,8 @@ function install_debian()
         local DLP="${VER}/${ARCH}/iso-cd/"
         local IMAGE="debian-${VER}-${ARCH}-netinst.iso"
         [[ -n $(grep "exists" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
-            && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+            && { wget ${DLA}${DLP}${IMAGE} \
+                --directory-prefix=${USBTMPDIR}/iso/ ; } \
             || { shift 1 ; continue ; }
 
 echo "menuentry \"Debian netinst ${ARCH} ${VER}\" {

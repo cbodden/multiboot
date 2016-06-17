@@ -21,7 +21,8 @@ function install_fedora()
         local IMAGE="Fedora-Live-Desktop-${ARCH_6}-${VER}-1.iso"
         local FED_OPTS="--class fedora --class gnu-linux --class gnu --class os"
         [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
-            && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+            && { wget ${DLA}${DLP}${IMAGE} \
+                --directory-prefix=${USBTMPDIR}/iso/ ; } \
             || { shift 1 ; continue ; }
 
 echo "menuentry \"Fedora desktop ${ARCH_6} ${VER}\" ${FED_OPTS} {

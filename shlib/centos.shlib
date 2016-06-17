@@ -22,7 +22,8 @@ function install_centos()
             | cut -d'.' -f1 \
             | rev).iso"
         [[ -n $(grep "exists" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
-            && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+            && { wget ${DLA}${DLP}${IMAGE} \
+                --directory-prefix=${USBTMPDIR}/iso/ ; } \
             || { shift 1 ; continue ; }
 
 echo "menuentry \"Centos minimal ${ARCH} ${VER} \" {

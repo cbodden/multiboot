@@ -20,7 +20,8 @@ function install_ubuntu_desktop()
         local DLP="${VER}/"
         local IMAGE="ubuntu-${VER}-desktop-${ARCH}.iso"
         [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
-            && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+            && { wget ${DLA}${DLP}${IMAGE} \
+                --directory-prefix=${USBTMPDIR}/iso/ ; } \
             || { shift 1 ; continue ; }
 
 echo "menuentry \"Ubuntu ${ARCH} desktop ${VER}\" {

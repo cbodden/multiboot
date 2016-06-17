@@ -25,7 +25,8 @@ function install_ubuntu_server()
         fi
         local IMAGE="ubuntu-${VER}-server-${ARCH}.iso"
         [[ -n $(grep "200 OK" <(wget --spider ${DLA}${DLP}${IMAGE} 2>&1)) ]] \
-            && { wget ${DLA}${DLP}${IMAGE} --directory-prefix=${USBTMPDIR}/iso/ ; } \
+            && { wget ${DLA}${DLP}${IMAGE} \
+                --directory-prefix=${USBTMPDIR}/iso/ ; } \
             || { shift 1 ; continue ; }
 
 echo "menuentry \"Ubuntu ${ARCH} server ${VER}\" {
