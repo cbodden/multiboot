@@ -57,8 +57,8 @@ function selection()
         ;;
 
         [Nn][Oo]|[Nn]|*)
-            declare -a OSN=(`for _TP in $(grep "OS_NAME" -l \
-                --exclude={selection\*}.\* shlib/*); do echo ${_TP} ; done`)
+            declare -a OSN=($(for _TP in $(grep "OS_NAME" -l \
+                --exclude={selection\*}.\* shlib/*); do echo ${_TP} ; done))
             for NAME in "${OSN[@]}"; do
                 source ${NAME}
                     if [ "${OS_INSTALL}" -eq 1 ]; then
