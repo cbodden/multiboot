@@ -7,6 +7,7 @@ or larger.
 
 These are the OS'es that are currently being supported:
 - alpine extended (amd64 & i386)
+- centos minimal (x86_64)
 - debian netinstall (amd64 & i386)
 - gentoo current minimal (amd64 & x86)
 - grml
@@ -14,8 +15,8 @@ These are the OS'es that are currently being supported:
 - netbsd (amd64 & i386)
 - openbsd (amd64)
 - tails live & masquerade (i386)
-- ubuntu server (amd64 & i386)
 - ubuntu desktop (amd64 & i386)
+- ubuntu server (amd64 & i386)
 
 Requirements
 ----
