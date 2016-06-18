@@ -10,6 +10,7 @@ NAME=$(basename $0)
 ## begin functions from here down##
 function main()
 {
+    ## main function - handles all the script specific stuffs
     # text format && color for messages
     # printf "${FMT}" "${MNHDR}" "message" ": "
     readonly ORN=$(tput setaf 3)
@@ -41,6 +42,7 @@ function main()
 
 function cleanup()
 {
+    ## this function cleans up all the leftover files / dirs
     sync
     umount ${USBSTICK}1
     rm ${USBTMPDIR} -rf
@@ -49,11 +51,13 @@ function cleanup()
 
 function cleanup_debug()
 {
+    ## this is to clean the tmp file while in debug mode
     rm -rf ${TMP_FILE}
 }
 
 function description()
 {
+## this function prints out the description
 # created with cat file | gzip | base64
 DESC="
 H4sIAMR0Y1cAA1WOQQrCQAxF9z3FP0DpQryARXCnC71A2qbtYJwpSQb19k5B0L7VJyQ/D/hym4PB
@@ -65,6 +69,7 @@ echo "${DESC}" | base64 -d | gunzip
 
 function disk_action()
 {
+    ## this function formats and sets the usd drive
     dd if=/dev/zero of=${USBSTICK} bs=1M count=1
     parted -s ${USBSTICK} -- mklabel msdos \
         mkpart primary 0% 100%
@@ -73,6 +78,7 @@ function disk_action()
 
 function disk_detect()
 {
+    ## this function does disk detection
     typeset -r MAINPROMPT="Select a USB disk to use: "
     declare -a ARR=($(for DRIVE in $(lsblk -d -n -o NAME,TRAN \
         | awk '/usb/{ print "/dev/"$1 }'); do echo $DRIVE ; done))
@@ -93,6 +99,9 @@ function disk_detect()
 
 function grub_disk()
 {
+    ## this function makes the usb tmp folder
+    ## then mounts the usb stick
+    ## then installs grub to the usb disk
     mkdir ${USBTMPDIR}
     mount ${USBSTICK}1 ${USBTMPDIR}
     readonly UUID=$(ls -al /dev/disk/by-uuid/ \
@@ -110,11 +119,13 @@ function grub_disk()
 
 function grub_disk_debug()
 {
+    ## this function makes the debug folders instead of on the usb disk
     mkdir -p ${USBTMPDIR} ${USBTMPDIR}/iso/ ${USBTMPDIR}/boot/grub/
 }
 
 function grub_header()
 {
+## this function writes the initial grub headers
 echo "set timeout=300
 set default=0
 set menu_color_normal=white/black
@@ -124,18 +135,21 @@ set menu_color_highlight=white/green
 
 function logd()
 {
-  local LOGFILE=/tmp/$0
-  printf "%-20s %-10s %-10s %-10s %-10s\n" `date "+%Y%m%d_%H%M"` \
-    "[${1}]" "${2}" "${3}" "${4}" >> ${LOGFILE}
+    ## this function controls the logging function
+    local LOGFILE=/tmp/$0
+    printf "%-20s %-10s %-10s %-10s %-10s\n" `date "+%Y%m%d_%H%M"` \
+        "[${1}]" "${2}" "${3}" "${4}" >> ${LOGFILE}
 }
 
 function pause()
 {
+    ## this function does exactly what you think
     read -p "$*"
 }
 
 function usage()
 {
+    ## this function outputs help / usage info
   cat <<EOL
 
 Usage: sudo ${NAME} < debug (-d) | install (-i) | help (-h) >
@@ -152,6 +166,7 @@ EOL
 
 function version()
 {
+    ## this function outputs version information
   clear
   local VER="0.40"
   cat <<EOL
