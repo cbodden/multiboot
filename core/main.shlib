@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+LC_ALL=C
 LANG=C
 set -o pipefail
 set -o nounset
