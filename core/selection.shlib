@@ -57,8 +57,11 @@ function selection()
         ;;
 
         [Nn][Oo]|[Nn]|*)
+            ## creating the os name array
             declare -a OSN=($(for _TP in $(grep "OS_NAME" -l \
                 --exclude={selection\*}.\* shlib/*); do echo ${_TP} ; done))
+
+            ## cycling through the array to install the os one by one
             for NAME in "${OSN[@]}"; do
                 source ${NAME}
                     if [ "${OS_INSTALL}" -eq 1 ]; then
