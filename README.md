@@ -1,3 +1,6 @@
+![Unsupported](https://img.shields.io/badge/development_status-in_progress-green.svg)
+
+
 multiboot
 =========
 This script is used to create a grub2 bootable flash disc with multiple
