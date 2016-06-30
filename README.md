@@ -1,4 +1,4 @@
-![Unsupported](https://img.shields.io/badge/development_status-in_progress-green.svg)
+![Unsupported](https://img.shields.io/badge/development_status-in_progress-green.svg) ![License GPLv3](https://img.shields.io/badge/license-GPLv3-green.svg)
 
 
 multiboot
